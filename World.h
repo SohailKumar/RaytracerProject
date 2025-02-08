@@ -15,7 +15,7 @@ public:
 	void Add(Object* obj);
 	//void transform(Object obj);
 	void transformAll(glm::mat4 viewMatrix);
-	Radiance* spawn(Ray r);
+	glm::vec3 spawn(Ray r);
 
 };
 

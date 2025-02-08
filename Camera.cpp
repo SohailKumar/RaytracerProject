@@ -23,13 +23,13 @@ Camera::Camera(glm::vec3 position, glm::vec3 look_at, glm::vec3 up, double focal
     this->filmPlaneHeight = filmPlaneHeight;
 }
 
-std::vector<Radiance*> Camera::RenderWorld(World* world, int windowWidth, int windowHeight)
+std::vector<glm::vec3> Camera::RenderWorld(World* world, int windowWidth, int windowHeight)
 {
     double pixelWidth = this->filmPlaneWidth / windowWidth;
     double pixelHeight = this->filmPlaneHeight / windowHeight;
     std::cout << "Pixel Width: " << pixelWidth << ", Height: " << pixelHeight << std::endl;
 
-    std::vector<Radiance*> radianceArray;
+    std::vector<glm::vec3> rgbArray;
 
     //starting at the bottom left and going to the top right.
     for (double i = -(filmPlaneWidth / 2) ; i < (filmPlaneWidth / 2); i += pixelWidth) {
@@ -38,24 +38,17 @@ std::vector<Radiance*> Camera::RenderWorld(World* world, int windowWidth, int wi
             glm::vec3 pixel = glm::vec3(i + (pixelWidth/2), j + (pixelHeight/2), -this->focalLength); // create a ray towards center of pixel.
             glm::vec3 direction = glm::normalize(pixel - glm::vec3(0,0,0));
 
-            Radiance* radianceRet = world->spawn(Ray(glm::vec3(0, 0, 0), direction));
+            glm::vec3 rgbRet = world->spawn(Ray(glm::vec3(0, 0, 0), direction));
 
 			//std::cout << "i: " << i+ (pixelWidth / 2) << ", j: " << j+(pixelHeight / 2) << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
-            if (radianceRet != nullptr) {
-                //intersection. get color
-                radianceRet->radianceValues *= 255;
-                radianceArray.push_back(radianceRet);
 
-                std::cout << "Intersection at: " << std::endl;
-            }
-            else {
-                radianceArray.push_back(new Radiance(glm::vec3(0, 0, 0)));
-            }
+            rgbRet *= 255;
+            rgbArray.push_back(rgbRet);
 
         }
     }
 
-    return radianceArray;
+    return rgbArray;
 };
 
 glm::mat4 Camera::GetViewMatrix() {

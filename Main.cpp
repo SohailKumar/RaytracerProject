@@ -27,8 +27,8 @@ int main(int argc, char* argv[]) {
     SDL_Window* window;
     SDL_Surface* surface;
 
-    const int WINDOW_WIDTH = 100;
-    const int WINDOW_HEIGHT = 100;
+    const int WINDOW_WIDTH = 500;
+    const int WINDOW_HEIGHT = 500;
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Basic Raytracer", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     //SET UP SCENE
 	World* world = new World();
 
-    Sphere* sphere = new Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 1, glm::vec3(1.0, 0, 0));
+    Sphere* sphere = new Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 1, glm::vec3(0.0, 0.0, 1.0));
     std::cout << "Sphere: " << glm::to_string(sphere->center) << std::endl;
 	world->Add(sphere);
 
@@ -53,8 +53,8 @@ int main(int argc, char* argv[]) {
 	world->transformAll(camera->GetViewMatrix());
     //std::cout << "Sphere after: " << glm::to_string(sphere->center) << std::endl;
 
-    std::vector<Radiance*> radianceArray = camera->RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
-    std::cout << "lenght of vector is " << radianceArray.size() << std::endl;
+    std::vector<glm::vec3> rgbArray = camera->RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
+    std::cout << "lenght of vector is " << rgbArray.size() << std::endl;
 
 	//Implement ray intersection with objects in world.
     //Display
@@ -72,12 +72,12 @@ int main(int argc, char* argv[]) {
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
-            Radiance* radiance = radianceArray[index];  // Get corresponding pixel radiance
+            glm::vec3 rgb = rgbArray[index];  // Get corresponding pixel radiance
 
             // Convert from float [0,1] to uint8_t [0,255]
-            uint8_t r = static_cast<uint8_t>(radiance->radianceValues[0]);
-            uint8_t g = static_cast<uint8_t>(radiance->radianceValues[1]);
-            uint8_t b = static_cast<uint8_t>(radiance->radianceValues[2]);
+            uint8_t r = static_cast<uint8_t>(rgb[0]);
+            uint8_t g = static_cast<uint8_t>(rgb[1]);
+            uint8_t b = static_cast<uint8_t>(rgb[2]);
 			//std::cout << "r: " << radiance->radianceValues[0] << ", g: " << radiance->radianceValues[1] << ", b: " << radiance->radianceValues[2] << std::endl;
             uint8_t a = 255;  // Full opacity
 

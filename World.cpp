@@ -27,22 +27,22 @@ void World::transformAll(glm::mat4 viewMatrix) {
 	return;
 }
 
-Radiance* World::spawn(Ray r) {
+glm::vec3 World::spawn(Ray r) {
 	//loop through objects in objects array.
 	//if object intersects with ray, return object
 	//else return NULL
 	for (Object* obj : this->objects) {
 		//std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
-		if (r.direction[0] < 0.05 && r.direction[0] > -0.05 && r.direction[1] < 0.05 && r.direction[1] > -0.05) {
+		/*if (r.direction[0] < 0.05 && r.direction[0] > -0.05 && r.direction[1] < 0.05 && r.direction[1] > -0.05) {
 			std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
 
-			if (obj->Intersect(&r)) {
-				
-				std::cout << "INTERSECT";
-				return obj->radiance;
-			}
+		}*/
+		if (obj->Intersect(&r)) {
+
+			//std::cout << "INTERSECT";
+			return obj->rgb;
 		}
 
 	}
-	return nullptr;
+	return glm::vec3(0, 0, 0);
 }

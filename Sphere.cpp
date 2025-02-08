@@ -8,13 +8,14 @@
 Sphere::Sphere() {
     this->center = glm::vec3(0.0f, 0.0f, 0.0f);
     this->radius = 5;
-	this->radiance = new Radiance(glm::vec3(1.0f, 0.0f, 0.0f));
+	//this->radiance = new Radiance(glm::vec3(1.0f, 0.0f, 0.0f));
+	this->rgb = glm::vec3(255.0f, 0.0f, 0.0f); 
 }
 
-Sphere::Sphere(glm::vec3 center, int radius, glm::vec3 radiance) {
+Sphere::Sphere(glm::vec3 center, int radius, glm::vec3 rgb) {
     this->center = center;
     this->radius = radius;
-	this->radiance = new Radiance(radiance);
+	this->rgb = rgb;
 }
 
 bool Sphere::Intersect(Ray* r) {
