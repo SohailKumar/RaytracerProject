@@ -7,7 +7,7 @@
 
 Sphere::Sphere() {
     this->center = glm::vec3(0.0f, 0.0f, 0.0f);
-    this->radius = 5;
+    this->radius = 5.0;
 	//this->radiance = new Radiance(glm::vec3(1.0f, 0.0f, 0.0f));
 	this->rgb = glm::vec3(255.0f, 0.0f, 0.0f); 
 }

@@ -9,6 +9,7 @@
 
 
 #include "Sphere.h"
+#include "Polygon.h"
 #include "Camera.h"
 #include "Ray.h"
 #include "World.h"
@@ -19,7 +20,12 @@ int main(int argc, char* argv[]) {
     //bool test = bigsphere->Intersect(bigray);
     //std::cout << "Intersect: " << test << std::endl;
 
-    //return 0;
+    /*Polygon* bigpoly = new Polygon({ glm::vec3(-2, -2, -5), glm::vec3(0, 2, -5), glm::vec3(2, -2, -5) });
+	Ray* bigray = new Ray(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+    bool test = bigpoly->Intersect(bigray);
+    std::cout << "Intersect: " << test << std::endl;
+
+    return 0;*/
 
 
     SDL_Event event; //event handler
@@ -27,8 +33,8 @@ int main(int argc, char* argv[]) {
     SDL_Window* window;
     SDL_Surface* surface;
 
-    const int WINDOW_WIDTH = 500;
-    const int WINDOW_HEIGHT = 500;
+    const int WINDOW_WIDTH = 854;
+    const int WINDOW_HEIGHT = 480;
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Basic Raytracer", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
@@ -40,12 +46,23 @@ int main(int argc, char* argv[]) {
     //SET UP SCENE
 	World* world = new World();
 
-    Sphere* sphere = new Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 1, glm::vec3(0.0, 0.0, 1.0));
-    std::cout << "Sphere: " << glm::to_string(sphere->center) << std::endl;
+    Sphere* sphere = new Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0));
+	Sphere* sphere2 = new Sphere(glm::vec3(3.0f, -0.75f, -6.0f), 3, glm::vec3(0.0, 1.0, 0.0));
+
+    glm::vec3 quadp1 = glm::vec3(-6, -3.5, -1);
+	glm::vec3 quadp2 = glm::vec3(-6, -3.5, -20);
+	glm::vec3 quadp3 = glm::vec3(8, -3.5, -1);
+	glm::vec3 quadp4 = glm::vec3(8, -3.5, -20);
+    Polygon* polygon = new Polygon({ quadp1, quadp2, quadp3}, glm::vec3(1.0, 0.0, 0.0));
+    Polygon* polygon2 = new Polygon({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0));
+    
 	world->Add(sphere);
+    world->Add(sphere2);
+    world->Add(polygon);
+    world->Add(polygon2);
 
     //Add camera
-	Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 1.0, 2, 2);
+	Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 8.0, 16, 9);
 
     //Implement camera ray generation to camera field.
     //std::cout << "Sphere before: " << glm::to_string(sphere->center) << std::endl;
@@ -72,7 +89,9 @@ int main(int argc, char* argv[]) {
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
+            //std::cout << "x: " << x << ", y: " << y << ", index: " << index << std::endl;
             glm::vec3 rgb = rgbArray[index];  // Get corresponding pixel radiance
+			//std::cout << "r: " << rgb[0] << ", g: " << rgb[1] << ", b: " << rgb[2] << std::endl << std::endl;
 
             // Convert from float [0,1] to uint8_t [0,255]
             uint8_t r = static_cast<uint8_t>(rgb[0]);
@@ -82,7 +101,7 @@ int main(int argc, char* argv[]) {
             uint8_t a = 255;  // Full opacity
 
             // Store pixel color in correct endian order
-            pixels[index] = SDL_Swap32LE((a << 24) | (r << 16) | (g << 8) | b);
+            pixels[y * (surface->pitch/4) + x] = SDL_Swap32LE((a << 24) | (r << 16) | (g << 8) | b);
         }
     }
 

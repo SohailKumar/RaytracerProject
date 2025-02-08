@@ -9,7 +9,7 @@
 class Sphere: public Object {
 public: 
     glm::vec3 center;
-    int radius;
+    double radius;
     
     Sphere();
     Sphere(glm::vec3 center, int radius, glm::vec3 rgb);

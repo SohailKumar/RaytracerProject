@@ -32,21 +32,34 @@ std::vector<glm::vec3> Camera::RenderWorld(World* world, int windowWidth, int wi
     std::vector<glm::vec3> rgbArray;
 
     //starting at the bottom left and going to the top right.
-    for (double i = -(filmPlaneWidth / 2) ; i < (filmPlaneWidth / 2); i += pixelWidth) {
-        for (double j = -(filmPlaneHeight / 2); j < (filmPlaneHeight / 2); j += pixelHeight) {
-
-            glm::vec3 pixel = glm::vec3(i + (pixelWidth/2), j + (pixelHeight/2), -this->focalLength); // create a ray towards center of pixel.
-            glm::vec3 direction = glm::normalize(pixel - glm::vec3(0,0,0));
+    for (double j = (filmPlaneHeight / 2); j > -(filmPlaneHeight / 2); j -= pixelHeight) {
+        for (double i = -(filmPlaneWidth / 2); i < (filmPlaneWidth / 2); i += pixelWidth) {
+            glm::vec3 pixel = glm::vec3(i + (pixelWidth / 2), j + (pixelHeight / 2), -this->focalLength); // create a ray towards center of pixel.
+            glm::vec3 direction = glm::normalize(pixel - glm::vec3(0, 0, 0));
 
             glm::vec3 rgbRet = world->spawn(Ray(glm::vec3(0, 0, 0), direction));
 
-			//std::cout << "i: " << i+ (pixelWidth / 2) << ", j: " << j+(pixelHeight / 2) << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
+            //std::cout << "i: " << i << ", j: " << j << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
 
             rgbRet *= 255;
             rgbArray.push_back(rgbRet);
-
         }
     }
+   // for (double i = -(filmPlaneWidth / 2) ; i < (filmPlaneWidth / 2); i += pixelWidth) {
+   //     for (double j = (filmPlaneHeight / 2); j > -(filmPlaneHeight / 2); j -= pixelHeight) {
+
+   //         glm::vec3 pixel = glm::vec3(i + (pixelWidth/2), j + (pixelHeight/2), -this->focalLength); // create a ray towards center of pixel.
+   //         glm::vec3 direction = glm::normalize(pixel - glm::vec3(0,0,0));
+
+   //         glm::vec3 rgbRet = world->spawn(Ray(glm::vec3(0, 0, 0), direction));
+
+			//std::cout << "i: " << i << ", j: " << j << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
+
+   //         rgbRet *= 255;
+   //         rgbArray.push_back(rgbRet);
+
+   //     }
+   // }
 
     return rgbArray;
 };
