@@ -1,6 +1,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include "Object.h"
+#include "Ray.h"
 
 #ifndef WORLD_H
 #define WORLD_H
@@ -13,8 +14,8 @@ public:
 
 	void Add(Object* obj);
 	//void transform(Object obj);
-	void transformAll();
-	Object* spawn(Ray r);
+	void transformAll(glm::mat4 viewMatrix);
+	Radiance* spawn(Ray r);
 
 };
 

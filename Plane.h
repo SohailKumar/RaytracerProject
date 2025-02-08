@@ -8,14 +8,15 @@
 class Plane : public Object {
 public:
     glm::vec4 planeEquation;
+    glm::vec3 normalVector;
+    glm::vec3 center;
 
 
     Plane();
-    Plane(glm::vec4 equation);
     Plane(glm::vec3 normalVector, glm::vec3 center);
 
-    bool Intersect(Ray r);
-    void Transform(glm::mat3x3 transformMatrix);
+    bool Intersect(Ray* r) override;
+    void Transform(glm::mat4 transformMatrix) override;
 
 };
 

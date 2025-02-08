@@ -1,18 +1,18 @@
 #include <glm/glm.hpp>
 #include "Ray.h"
+#include "Radiance.h"
 
 #ifndef OBJECT_H
 #define OBJECT_H
 
 class Object {
 public:
-    Object() {
-        return;
-    };
+    virtual ~Object() = default;
+    Radiance* radiance;
 
-    bool Intersect(Ray r); //checks if this object intersects with Ray
+    virtual bool Intersect(Ray* r) = 0; //checks if this object intersects with Ray
 
-    void Transform();
+    virtual void Transform(glm::mat4 transformMatrix) = 0;
 };
 
 #endif

@@ -1,9 +1,11 @@
 #include <SDL3/SDL.h>
 #include <iostream>
+#include <algorithm>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
+#include <vector>
 
 
 #include "Sphere.h"
@@ -12,50 +14,81 @@
 #include "World.h"
 
 int main(int argc, char* argv[]) {
-    //SDL_Event event; //event handler
-    //SDL_Renderer* renderer;
-    //SDL_Window* window;
-    //SDL_Surface* surface;
+    //Sphere* bigsphere = new Sphere(glm::vec3(0.0f, 0.0f, -2.0f), 1, glm::vec3(1.0, 0, 0));
+    //Ray* bigray = new Ray(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-0.049875, -0.049875, -0.997509));
+    //bool test = bigsphere->Intersect(bigray);
+    //std::cout << "Intersect: " << test << std::endl;
 
-    //const int WIDTH = 256;
-    //const int HEIGHT = 256;
-    //
-    //SDL_Init(SDL_INIT_VIDEO);
-    //SDL_CreateWindowAndRenderer("Basic Raytracer", WIDTH, HEIGHT, 0, &window, &renderer);
+    //return 0;
+
+
+    SDL_Event event; //event handler
+    SDL_Renderer* renderer;
+    SDL_Window* window;
+    SDL_Surface* surface;
+
+    const int WINDOW_WIDTH = 100;
+    const int WINDOW_HEIGHT = 100;
+
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_CreateWindowAndRenderer("Basic Raytracer", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
 
     ////////////////////////////////////////////////////////////////////////////////////
     
-    glm::vec3 vec(1.0f, 2.0f, 3.0f);
-	glm::mat3x3 mat(2.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 1.0f);
-    vec = mat * vec;
-    
-    Sphere* sphere = new Sphere();
-	std::cout << "Sphere: " << glm::to_string(sphere->center) << std::endl;
-
-    std::cout << "Vector: " << glm::to_string(vec) << std::endl;
+    std::vector<Radiance*> radiance; //array of radiances
 
     //SET UP SCENE
 	World* world = new World();
-	world->Add(new Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 5));
+
+    Sphere* sphere = new Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 1, glm::vec3(1.0, 0, 0));
+    std::cout << "Sphere: " << glm::to_string(sphere->center) << std::endl;
+	world->Add(sphere);
 
     //Add camera
-    
+	Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 1.0, 2, 2);
+
     //Implement camera ray generation to camera field.
-    
+    //std::cout << "Sphere before: " << glm::to_string(sphere->center) << std::endl;
+    //std::cout << "viewMat: " << glm::to_string(camera->GetViewMatrix()) << std::endl;
+	world->transformAll(camera->GetViewMatrix());
+    //std::cout << "Sphere after: " << glm::to_string(sphere->center) << std::endl;
+
+    std::vector<Radiance*> radianceArray = camera->RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
+    std::cout << "lenght of vector is " << radianceArray.size() << std::endl;
 
 	//Implement ray intersection with objects in world.
     //Display
 
+    delete camera;
+    delete world;
+    //delete sphere;
 
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //surface = SDL_CreateSurface(WIDTH, HEIGHT, SDL_PIXELFORMAT_RGBA32);
-    //
+    surface = SDL_CreateSurface(WINDOW_WIDTH, WINDOW_HEIGHT, SDL_PIXELFORMAT_RGBA32);
+
+    uint32_t* pixels = static_cast<uint32_t*>(surface->pixels);
+
+    for (int y = 0; y < WINDOW_HEIGHT; ++y) {
+        for (int x = 0; x < WINDOW_WIDTH; ++x) {
+            int index = y * WINDOW_WIDTH + x;
+            Radiance* radiance = radianceArray[index];  // Get corresponding pixel radiance
+
+            // Convert from float [0,1] to uint8_t [0,255]
+            uint8_t r = static_cast<uint8_t>(radiance->radianceValues[0]);
+            uint8_t g = static_cast<uint8_t>(radiance->radianceValues[1]);
+            uint8_t b = static_cast<uint8_t>(radiance->radianceValues[2]);
+			//std::cout << "r: " << radiance->radianceValues[0] << ", g: " << radiance->radianceValues[1] << ", b: " << radiance->radianceValues[2] << std::endl;
+            uint8_t a = 255;  // Full opacity
+
+            // Store pixel color in correct endian order
+            pixels[index] = SDL_Swap32LE((a << 24) | (r << 16) | (g << 8) | b);
+        }
+    }
+
     //uint32_t* pixels = static_cast<uint32_t*>(surface->pixels);
-    //for (int y = 0; y < HEIGHT; ++y) {
-    //    for (int x = 0; x < WIDTH; ++x) {
+    //for (int y = 0; y < WINDOW_HEIGHT; ++y) {
+    //    for (int x = 0; x < WINDOW_WIDTH; ++x) {
     //        uint8_t r = x % 256;   // Example pattern
     //        uint8_t g = y % 256;
     //        uint8_t b = (x + y) % 256;
@@ -64,25 +97,26 @@ int main(int argc, char* argv[]) {
     //    }
     //}
 
-    //SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    //SDL_DestroySurface(surface);
-    //
-    ////render texture
-    //SDL_RenderClear(renderer);
-    //SDL_RenderTexture(renderer, texture, nullptr, nullptr);
-    //SDL_RenderPresent(renderer);
 
-    ////Wait for user to close the window
-    //while (1) {
-    //    if (SDL_PollEvent(&event) && event.type == SDL_EVENT_QUIT)
-    //        break;
-    //}
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_DestroySurface(surface);
+    
+    //render texture
+    SDL_RenderClear(renderer);
+    SDL_RenderTexture(renderer, texture, nullptr, nullptr);
+    SDL_RenderPresent(renderer);
 
-    //SDL_DestroyRenderer(renderer);
-    //SDL_DestroyWindow(window);
-    //// Quit SDL subsystems
-    //SDL_Quit();
+    //Wait for user to close the window
+    while (1) {
+        if (SDL_PollEvent(&event) && event.type == SDL_EVENT_QUIT)
+            break;
+    }
 
-    //std::cout << "SDL3 test completed successfully!" << std::endl;
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    // Quit SDL subsystems
+    SDL_Quit();
+
+    std::cout << "SDL3 test completed successfully!" << std::endl;
     return EXIT_SUCCESS;
 }

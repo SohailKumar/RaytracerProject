@@ -1,11 +1,17 @@
 #include "World.h"
 #include "Ray.h"
+#include "Radiance.h"
+#include <iostream>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
+
 
 World::World() {
 	return;
 }
 
 void World::Add(Object* obj) {
+
 	this->objects.push_back(obj);
 }
 
@@ -13,19 +19,30 @@ void World::Add(Object* obj) {
 //	return;
 //}
 
-void World::transformAll() {
-	//TODO IMPLEMENT
+void World::transformAll(glm::mat4 viewMatrix) {
+	for (Object* obj : this->objects) {
+		obj->Transform(viewMatrix);
+	}
+
 	return;
 }
 
-Object* World::spawn(Ray r) {
+Radiance* World::spawn(Ray r) {
 	//loop through objects in objects array.
 	//if object intersects with ray, return object
 	//else return NULL
 	for (Object* obj : this->objects) {
-		if (obj->Intersect(r)) {
-			return obj;
+		//std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
+		if (r.direction[0] < 0.05 && r.direction[0] > -0.05 && r.direction[1] < 0.05 && r.direction[1] > -0.05) {
+			std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
+
+			if (obj->Intersect(&r)) {
+				
+				std::cout << "INTERSECT";
+				return obj->radiance;
+			}
 		}
+
 	}
 	return nullptr;
 }
