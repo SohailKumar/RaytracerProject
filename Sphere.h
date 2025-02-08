@@ -12,7 +12,7 @@ public:
     double radius;
     
     Sphere();
-    Sphere(glm::vec3 center, int radius, glm::vec3 rgb);
+    Sphere(glm::vec3 center, double radius, glm::vec3 rgb);
 
     bool Intersect(Ray* r) override;
 	void Transform(glm::mat4 transformMatrix) override;

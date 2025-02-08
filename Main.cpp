@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 	World* world = new World();
 
     Sphere* sphere = new Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0));
-	Sphere* sphere2 = new Sphere(glm::vec3(3.0f, -0.75f, -6.0f), 3, glm::vec3(0.0, 1.0, 0.0));
+	Sphere* sphere2 = new Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(0.0, 1.0, 0.0));
 
     glm::vec3 quadp1 = glm::vec3(-6, -3.5, -1);
 	glm::vec3 quadp2 = glm::vec3(-6, -3.5, -20);

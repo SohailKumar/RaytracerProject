@@ -12,7 +12,7 @@ Sphere::Sphere() {
 	this->rgb = glm::vec3(255.0f, 0.0f, 0.0f); 
 }
 
-Sphere::Sphere(glm::vec3 center, int radius, glm::vec3 rgb) {
+Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 rgb) {
     this->center = center;
     this->radius = radius;
 	this->rgb = rgb;
