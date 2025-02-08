@@ -14,10 +14,17 @@ Camera::Camera() {
     this->filmPlaneWidth = 2;
     this->filmPlaneHeight = 2;
 }
-Camera::Camera(glm::vec3 position, glm::vec3 look_at, glm::vec3 up, double focalLength, double filmPlaneWidth, double filmPlaneHeight) {
+Camera::Camera(glm::vec3 position, glm::vec3 look_at, double focalLength, double filmPlaneWidth, double filmPlaneHeight) {
     this->position = position;
     this->look_at = look_at;
+
+    glm::vec3 forward = glm::normalize(look_at - position);
+    glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 right = glm::normalize(glm::cross(worldUp, forward));
+    glm::vec3 up = glm::normalize(glm::cross(forward, right));
     this->up = up;
+	std::cout << "Up: " << glm::to_string(up) << std::endl;
+    
     this->focalLength = focalLength;
     this->filmPlaneWidth = filmPlaneWidth;
     this->filmPlaneHeight = filmPlaneHeight;

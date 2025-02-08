@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     world->Add(polygon2);
 
     //Add camera
-	Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 8.0, 16, 9);
+	Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -5.0f), 8.0, 16, 9);
 
     //Implement camera ray generation to camera field.
     //std::cout << "Sphere before: " << glm::to_string(sphere->center) << std::endl;
