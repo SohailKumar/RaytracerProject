@@ -7,7 +7,6 @@
 
 class Object {
 public:
-    virtual ~Object() = default;
     Radiance* radiance;
     glm::vec3 rgb;
 

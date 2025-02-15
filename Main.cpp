@@ -6,7 +6,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 #include <vector>
-
+#include <print>
 
 #include "Sphere.h"
 #include "Polygon.h"
@@ -71,7 +71,8 @@ int main(int argc, char* argv[]) {
     //std::cout << "Sphere after: " << glm::to_string(sphere->center) << std::endl;
 
     std::vector<glm::vec3> rgbArray = camera->RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
-    std::cout << "lenght of vector is " << rgbArray.size() << std::endl;
+    //std::cout << "lenght of vector is " << rgbArray.size() << std::endl;
+    std::println("length = {}", rgbArray.size());
 
 	//Implement ray intersection with objects in world.
     //Display

@@ -10,7 +10,7 @@ World::World() {
 	return;
 }
 
-void World::Add(Object* obj) {
+void World::Add(Object& obj) {
 
 	this->objects.push_back(obj);
 }
