@@ -7,6 +7,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <vector>
 #include <print>
+#include <memory>
 
 #include "Sphere.h"
 #include "Polygon.h"
@@ -44,42 +45,29 @@ int main(int argc, char* argv[]) {
     std::vector<Radiance*> radiance; //array of radiances
 
     //SET UP SCENE
-	World* world = new World();
+	World world = World();
 
-    Sphere* sphere = new Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0));
-	Sphere* sphere2 = new Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(0.0, 1.0, 0.0));
+    std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0)));
+    std::unique_ptr<Sphere> sphere2 = std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(0.0, 1.0, 0.0)));
 
     glm::vec3 quadp1 = glm::vec3(-6, -3.5, -1);
 	glm::vec3 quadp2 = glm::vec3(-6, -3.5, -20);
 	glm::vec3 quadp3 = glm::vec3(8, -3.5, -1);
 	glm::vec3 quadp4 = glm::vec3(8, -3.5, -20);
-    Polygon* polygon = new Polygon({ quadp1, quadp2, quadp3}, glm::vec3(1.0, 0.0, 0.0));
-    Polygon* polygon2 = new Polygon({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0));
+    std::unique_ptr<Triangle> polygon = std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0)));
+    std::unique_ptr<Triangle> polygon2 = std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0)));
     
-	world->Add(sphere);
-    world->Add(sphere2);
-    world->Add(polygon);
-    world->Add(polygon2);
-
+	world.Add(std::move(sphere));
+    world.Add(std::move(sphere2));
+    world.Add(std::move(polygon));
+    world.Add(std::move(polygon2));
+    
     //Add camera
-	Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -5.0f), 8.0, 16, 9);
+	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -5.0f), 8.0, 16, 9);
+	world.transformAll(camera.GetViewMatrix());
 
-    //Implement camera ray generation to camera field.
-    //std::cout << "Sphere before: " << glm::to_string(sphere->center) << std::endl;
-    //std::cout << "viewMat: " << glm::to_string(camera->GetViewMatrix()) << std::endl;
-	world->transformAll(camera->GetViewMatrix());
-    //std::cout << "Sphere after: " << glm::to_string(sphere->center) << std::endl;
-
-    std::vector<glm::vec3> rgbArray = camera->RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
-    //std::cout << "lenght of vector is " << rgbArray.size() << std::endl;
-    std::println("length = {}", rgbArray.size());
-
-	//Implement ray intersection with objects in world.
-    //Display
-
-    delete camera;
-    delete world;
-    //delete sphere;
+    std::vector<glm::vec3> rgbArray = camera.RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
+    //std::println("length = {}", rgbArray.size());
 
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -90,9 +78,7 @@ int main(int argc, char* argv[]) {
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
-            //std::cout << "x: " << x << ", y: " << y << ", index: " << index << std::endl;
             glm::vec3 rgb = rgbArray[index];  // Get corresponding pixel radiance
-			//std::cout << "r: " << rgb[0] << ", g: " << rgb[1] << ", b: " << rgb[2] << std::endl << std::endl;
 
             // Convert from float [0,1] to uint8_t [0,255]
             uint8_t r = static_cast<uint8_t>(rgb[0]);

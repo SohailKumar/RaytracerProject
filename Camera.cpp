@@ -30,7 +30,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 look_at, double focalLength, double
     this->filmPlaneHeight = filmPlaneHeight;
 }
 
-std::vector<glm::vec3> Camera::RenderWorld(World* world, int windowWidth, int windowHeight)
+std::vector<glm::vec3> Camera::RenderWorld(World& world, int windowWidth, int windowHeight)
 {
     double pixelWidth = this->filmPlaneWidth / windowWidth;
     double pixelHeight = this->filmPlaneHeight / windowHeight;
@@ -44,7 +44,7 @@ std::vector<glm::vec3> Camera::RenderWorld(World* world, int windowWidth, int wi
             glm::vec3 pixel = glm::vec3(i + (pixelWidth / 2), j + (pixelHeight / 2), -this->focalLength); // create a ray towards center of pixel.
             glm::vec3 direction = glm::normalize(pixel - glm::vec3(0, 0, 0));
 
-            glm::vec3 rgbRet = world->spawn(Ray(glm::vec3(0, 0, 0), direction));
+            glm::vec3 rgbRet = world.spawn(Ray(glm::vec3(0, 0, 0), direction));
 
             //std::cout << "i: " << i << ", j: " << j << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
 

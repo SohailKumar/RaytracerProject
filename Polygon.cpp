@@ -6,12 +6,12 @@
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/string_cast.hpp>
 
-Polygon::Polygon(std::vector<glm::vec3> points, glm::vec3 rgb) {
+Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 rgb) {
 	this->points = points;
 	this->rgb = rgb;
 }	
 
-bool Polygon::Intersect(Ray* r) {
+bool Triangle::Intersect(Ray* r) {
 	
 	//for each triangle
 	for (int i = 0; i < this->points.size()-2; i++) 
@@ -60,7 +60,7 @@ bool Polygon::Intersect(Ray* r) {
 	return false;
 }
 
-void Polygon::Transform(glm::mat4 transformMatrix) {
+void Triangle::Transform(glm::mat4 transformMatrix) {
 	for (glm::vec3& point : this->points) { //you need the & to get the reference to the actual point.
 		point = transformMatrix * glm::vec4(point, 1.0);
 	}

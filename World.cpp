@@ -10,9 +10,8 @@ World::World() {
 	return;
 }
 
-void World::Add(Object& obj) {
-
-	this->objects.push_back(obj);
+void World::Add(std::unique_ptr<Object> obj) {
+	this->objects.push_back(std::move(obj));
 }
 
 //void World::transform(Object obj) {
@@ -20,7 +19,7 @@ void World::Add(Object& obj) {
 //}
 
 void World::transformAll(glm::mat4 viewMatrix) {
-	for (Object* obj : this->objects) {
+	for (auto& obj : this->objects) {
 		obj->Transform(viewMatrix);
 	}
 
@@ -31,11 +30,10 @@ glm::vec3 World::spawn(Ray r) {
 	//loop through objects in objects array.
 	//if object intersects with ray, return object
 	//else return NULL
-	for (Object* obj : this->objects) {
+	for (const auto& obj : this->objects) {
 		//std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
 		/*if (r.direction[0] < 0.05 && r.direction[0] > -0.05 && r.direction[1] < 0.05 && r.direction[1] > -0.05) {
 			std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
-
 		}*/
 		if (obj->Intersect(&r)) {
 
