@@ -12,7 +12,7 @@ Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues) {
 	this->rgb = radianceValues * 255.0f;
 }	
 
-bool Triangle::Intersect(Ray* r) {
+bool Triangle::Intersect(Ray& r) {
 	
 	//for each triangle
 	for (int i = 0; i < this->points.size()-2; i++) 
@@ -24,19 +24,19 @@ bool Triangle::Intersect(Ray* r) {
 		glm::vec3 p3 = this->points[i + 2];
 
 		glm::vec3 normal = glm::normalize(glm::cross(p2 - p1, p3 - p1));
-		float denominator = glm::dot(normal, r->direction);
+		float denominator = glm::dot(normal, r.direction);
 		
 		if (denominator <= 0.0001) {
 			return false;
 		}
 
-		double intersection = glm::dot(normal, p1 - r->origin) / denominator;
+		double intersection = glm::dot(normal, p1 - r.origin) / denominator;
 		if (intersection < 0) {
 			return false;
 		}
 
 		//check if point is inside triangle
-		glm::vec3 intersectionPoint = r->origin + static_cast<float>(intersection) * r->direction;
+		glm::vec3 intersectionPoint = r.origin + static_cast<float>(intersection) * r.direction;
 
 		glm::vec3 v0 = p2 - p1;
 		glm::vec3 v1 = p3 - p1;

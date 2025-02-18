@@ -14,11 +14,11 @@ Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 radianceValues)
 	this->rgb = radianceValues * 255.0f;
 }
 
-bool Sphere::Intersect(Ray* r) {
-	glm::vec3 differenceOriginCenter = r->origin - this->center;
+bool Sphere::Intersect(Ray& r) {
+	glm::vec3 differenceOriginCenter = r.origin - this->center;
 
 	double a = 1;
-	double b = 2.0f * glm::dot(r->direction, differenceOriginCenter);
+	double b = 2.0f * glm::dot(r.direction, differenceOriginCenter);
 	double c = glm::dot(differenceOriginCenter, differenceOriginCenter) - (this->radius * this->radius);
 
 	double discriminant = b * b - 4.0f * a * c;

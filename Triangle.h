@@ -13,7 +13,7 @@ public:
 
     Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues);
 
-    bool Intersect(Ray* r) override;
+    bool Intersect(Ray& r) override;
     void Transform(glm::mat4 transformMatrix) override;
 
 };

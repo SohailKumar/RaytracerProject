@@ -52,6 +52,7 @@ std::vector<glm::vec3> Camera::RenderWorld(World& world, int windowWidth, int wi
             rgbArray.push_back(rgbRet);
         }
     }
+
    // for (double i = -(filmPlaneWidth / 2) ; i < (filmPlaneWidth / 2); i += pixelWidth) {
    //     for (double j = (filmPlaneHeight / 2); j > -(filmPlaneHeight / 2); j -= pixelHeight) {
 

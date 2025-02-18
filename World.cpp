@@ -35,7 +35,7 @@ glm::vec3 World::spawn(Ray r) {
 		/*if (r.direction[0] < 0.05 && r.direction[0] > -0.05 && r.direction[1] < 0.05 && r.direction[1] > -0.05) {
 			std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
 		}*/
-		if (obj->Intersect(&r)) {
+		if (obj->Intersect(r)) {
 
 			//std::cout << "INTERSECT";
 			return obj->rgb;

@@ -136,7 +136,6 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Radiance.cpp" />
     <ClCompile Include="Ray.cpp" />
@@ -145,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Plane.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Radiance.h" />
     <ClInclude Include="Ray.h" />
