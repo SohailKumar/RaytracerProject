@@ -38,9 +38,9 @@ glm::vec3 World::spawn(Ray r) {
 		if (obj->Intersect(r)) {
 
 			//std::cout << "INTERSECT";
-			return obj->rgb;
+			return obj->radiance.radianceValues;
 		}
 
 	}
-	return glm::vec3(0, 0, 0);
+	return glm::vec3(0.0f, 0.0f, 0.0f);
 }

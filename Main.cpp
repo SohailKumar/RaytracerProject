@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -5.0f), 8.0, 16, 9);
 	world.transformAll(camera.GetViewMatrix());
 
-    std::vector<glm::vec3> rgbArray = camera.RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
+    std::vector<glm::vec3> radianceArray = camera.RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
     //std::println("length = {}", rgbArray.size());
 
 
@@ -78,12 +78,17 @@ int main(int argc, char* argv[]) {
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
-            glm::vec3 rgb = rgbArray[index];  // Get corresponding pixel radiance
+            glm::vec3 radianceValues = radianceArray[index];  // Get corresponding pixel radiance
+
+            ///////////////////////
+            ///TONE REPRODUCTION///
+            radianceValues *= 255.0f;
+            ///////////////////////
 
             // Convert from float [0,1] to uint8_t [0,255]
-            uint8_t r = static_cast<uint8_t>(rgb[0]);
-            uint8_t g = static_cast<uint8_t>(rgb[1]);
-            uint8_t b = static_cast<uint8_t>(rgb[2]);
+            uint8_t r = static_cast<uint8_t>(radianceValues[0]);
+            uint8_t g = static_cast<uint8_t>(radianceValues[1]);
+            uint8_t b = static_cast<uint8_t>(radianceValues[2]);
 			//std::cout << "r: " << radiance->radianceValues[0] << ", g: " << radiance->radianceValues[1] << ", b: " << radiance->radianceValues[2] << std::endl;
             uint8_t a = 255;  // Full opacity
 
