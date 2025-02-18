@@ -10,7 +10,7 @@
 #include <memory>
 
 #include "Sphere.h"
-#include "Polygon.h"
+#include "Triangle.h"
 #include "Camera.h"
 #include "Ray.h"
 #include "World.h"
@@ -54,13 +54,13 @@ int main(int argc, char* argv[]) {
 	glm::vec3 quadp2 = glm::vec3(-6, -3.5, -20);
 	glm::vec3 quadp3 = glm::vec3(8, -3.5, -1);
 	glm::vec3 quadp4 = glm::vec3(8, -3.5, -20);
-    std::unique_ptr<Triangle> polygon = std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0)));
-    std::unique_ptr<Triangle> polygon2 = std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0)));
+    std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0)));
+    std::unique_ptr<Triangle> triangle2 = std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0)));
     
 	world.Add(std::move(sphere));
     world.Add(std::move(sphere2));
-    world.Add(std::move(polygon));
-    world.Add(std::move(polygon2));
+    world.Add(std::move(triangle));
+    world.Add(std::move(triangle2));
     
     //Add camera
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -5.0f), 8.0, 16, 9);
@@ -92,18 +92,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    //uint32_t* pixels = static_cast<uint32_t*>(surface->pixels);
-    //for (int y = 0; y < WINDOW_HEIGHT; ++y) {
-    //    for (int x = 0; x < WINDOW_WIDTH; ++x) {
-    //        uint8_t r = x % 256;   // Example pattern
-    //        uint8_t g = y % 256;
-    //        uint8_t b = (x + y) % 256;
-    //        uint8_t a = 255;
-    //        pixels[y * (surface->pitch / 4) + x] = SDL_Swap32LE((a << 24) | (r << 16) | (g << 8) | b);
-    //    }
-    //}
-
-
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_DestroySurface(surface);
     
@@ -123,6 +111,6 @@ int main(int argc, char* argv[]) {
     // Quit SDL subsystems
     SDL_Quit();
 
-    std::cout << "SDL3 test completed successfully!" << std::endl;
+    std::cout << "Completed Successfully!" << std::endl;
     return EXIT_SUCCESS;
 }

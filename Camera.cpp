@@ -48,7 +48,7 @@ std::vector<glm::vec3> Camera::RenderWorld(World& world, int windowWidth, int wi
 
             //std::cout << "i: " << i << ", j: " << j << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
 
-            rgbRet *= 255;
+            //rgbRet *= 255;
             rgbArray.push_back(rgbRet);
         }
     }

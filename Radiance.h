@@ -5,6 +5,7 @@
 
 class Radiance {
 public:
+	Radiance();
 	Radiance(glm::vec3 values);
 	glm::vec3 radianceValues;
 };

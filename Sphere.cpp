@@ -5,17 +5,13 @@
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/string_cast.hpp>
 
-Sphere::Sphere() {
-    this->center = glm::vec3(0.0f, 0.0f, 0.0f);
-    this->radius = 5.0;
-	//this->radiance = new Radiance(glm::vec3(1.0f, 0.0f, 0.0f));
-	this->rgb = glm::vec3(255.0f, 0.0f, 0.0f); 
-}
 
-Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 rgb) {
-    this->center = center;
-    this->radius = radius;
-	this->rgb = rgb;
+Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 radianceValues)
+{
+	this->center = center;
+	this->radius = radius;
+	this->radiance = Radiance(radianceValues);
+	this->rgb = radianceValues * 255.0f;
 }
 
 bool Sphere::Intersect(Ray* r) {

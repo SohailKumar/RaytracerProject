@@ -33,7 +33,7 @@
     <ClCompile Include="Radiance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Polygon.cpp">
+    <ClCompile Include="Triangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
@@ -59,7 +59,7 @@
     <ClInclude Include="Radiance.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Polygon.h">
+    <ClInclude Include="Triangle.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">

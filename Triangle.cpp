@@ -1,14 +1,15 @@
 #include <glm/glm.hpp>
-#include "Polygon.h"
+#include "Triangle.h"
 #include "Ray.h"
 
 #include <iostream>
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/string_cast.hpp>
 
-Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 rgb) {
+Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues) {
 	this->points = points;
-	this->rgb = rgb;
+	this->radiance = Radiance(radianceValues);
+	this->rgb = radianceValues * 255.0f;
 }	
 
 bool Triangle::Intersect(Ray* r) {
