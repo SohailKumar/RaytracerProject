@@ -10,7 +10,7 @@ Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 radianceValues)
 {
 	this->center = center;
 	this->radius = radius;
-	this->radiance = Radiance(radianceValues);
+	this->radiance = Material(radianceValues);
 	this->rgb = radianceValues * 255.0f;
 }
 

@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
     ////////////////////////////////////////////////////////////////////////////////////
     
-    std::vector<Radiance*> radiance; //array of radiances
+    std::vector<Material*> radiance; //array of radiances
 
     //SET UP SCENE
 	World world = World();

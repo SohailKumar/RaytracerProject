@@ -1,7 +1,7 @@
 #include <glm/glm.hpp>
 #include "Ray.h"
 #include "Object.h"
-#include "Radiance.h"
+#include "Material.h"
 
 #ifndef SPHERE_H
 #define SPHERE_H

@@ -1,5 +1,5 @@
 #include "World.h"
-#include "Radiance.h"
+#include "Material.h"
 #include <vector>
 
 class Camera {

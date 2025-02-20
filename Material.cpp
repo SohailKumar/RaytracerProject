@@ -1,9 +1,9 @@
-#include "Radiance.h"
+#include "Material.h"
 
-Radiance::Radiance() {
+Material::Material() {
 	this->radianceValues = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
-Radiance::Radiance(glm::vec3 values) {
+Material::Material(glm::vec3 values) {
 	this->radianceValues = values;
 }

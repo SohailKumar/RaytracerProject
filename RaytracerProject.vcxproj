@@ -137,7 +137,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Triangle.cpp" />
-    <ClCompile Include="Radiance.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="World.cpp" />
@@ -145,7 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Triangle.h" />
-    <ClInclude Include="Radiance.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Sphere.h" />

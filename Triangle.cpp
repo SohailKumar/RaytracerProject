@@ -8,7 +8,7 @@
 
 Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues) {
 	this->points = points;
-	this->radiance = Radiance(radianceValues);
+	this->radiance = Material(radianceValues);
 	this->rgb = radianceValues * 255.0f;
 }	
 

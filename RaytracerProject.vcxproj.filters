@@ -30,7 +30,7 @@
     <ClCompile Include="Ray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Radiance.cpp">
+    <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
@@ -53,7 +53,7 @@
     <ClInclude Include="World.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Radiance.h">
+    <ClInclude Include="Material.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
