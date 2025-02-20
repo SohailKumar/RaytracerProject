@@ -1,7 +1,8 @@
-#include <glm/glm.hpp>
+#pragma once
 
-#ifndef RAY_H
-#define RAY_H
+#include <vector>
+
+#include <glm/glm.hpp>
 
 class Ray {
 public:
@@ -10,5 +11,3 @@ public:
     glm::vec3 origin;
     glm::vec3 direction;
 };
-
-#endif

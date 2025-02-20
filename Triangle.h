@@ -1,11 +1,11 @@
+#pragma once
+
 #include <glm/glm.hpp>
+#include <vector>
+
 #include "Ray.h"
 #include "Object.h"
 #include "Material.h"
-#include <vector>
-
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
 
 class Triangle : public Object {
 public:
@@ -17,5 +17,3 @@ public:
     void Transform(glm::mat4 transformMatrix) override;
 
 };
-
-#endif

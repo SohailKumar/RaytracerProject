@@ -1,9 +1,11 @@
-#include "World.h"
-#include "Ray.h"
-#include "Material.h"
 #include <iostream>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
+
+#include "World.h"
+#include "Ray.h"
+#include "Material.h"
+#include "Light.h"
 
 
 World::World() {
@@ -14,9 +16,9 @@ void World::Add(std::unique_ptr<Object> obj) {
 	this->objects.push_back(std::move(obj));
 }
 
-//void World::transform(Object obj) {
-//	return;
-//}
+void World::Add(std::unique_ptr<Light> light) {
+	this->lights.push_back(std::move(light));
+}
 
 void World::transformAll(glm::mat4 viewMatrix) {
 	for (auto& obj : this->objects) {

@@ -1,6 +1,9 @@
+#pragma once
+
+#include <vector>
+
 #include "World.h"
 #include "Material.h"
-#include <vector>
 
 class Camera {
 public:
