@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <memory>
+#include <optional>
 
 #include "Object.h"
 #include "Ray.h"
@@ -21,5 +22,7 @@ public:
 	void transformAll(glm::mat4 viewMatrix);
 
 	glm::vec3 spawn(Ray r);
-	bool checkRayObjectIntersect(Ray r, IntersectionData& intersectionData);
+
+	//TODO: make intersectiondata optional.
+	bool checkRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj);
 };

@@ -23,7 +23,6 @@ public:
     Material material;
     glm::vec3 rgb;
 
-    
     virtual bool Intersect(Ray& r, IntersectionData& intersectionData) const = 0; //checks if this object intersects with Ray
 
     virtual void Transform(glm::mat4 transformMatrix) = 0; //setting these to 0 means that it is purely virtual function

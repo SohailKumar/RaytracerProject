@@ -24,9 +24,16 @@ int main(int argc, char* argv[]) {
     /*Polygon* bigpoly = new Polygon({ glm::vec3(-2, -2, -5), glm::vec3(0, 2, -5), glm::vec3(2, -2, -5) });
 	Ray* bigray = new Ray(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));
     bool test = bigpoly->Intersect(bigray);
-    std::cout << "Intersect: " << test << std::endl;
+    std::cout << "Intersect: " << test << std::endl;*/
 
-    return 0;*/
+    //glm::vec3 br = glm::vec3(1.0f, 0.0f, 0.0f);
+    //br *= 255;
+    //std::println("b before = {}", br[0]);
+
+    //uint8_t r = static_cast<uint8_t>(br[0]);
+    //std::println("r = {}", r);
+
+    //return 0;
 
 
     SDL_Event event; //event handler
@@ -36,6 +43,8 @@ int main(int argc, char* argv[]) {
 
     const int WINDOW_WIDTH = 854;
     const int WINDOW_HEIGHT = 480;
+    //const int WINDOW_WIDTH = 20;
+    //const int WINDOW_HEIGHT = 10;
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Basic Raytracer", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
@@ -48,19 +57,19 @@ int main(int argc, char* argv[]) {
 	World world = World();
 
     // objects
-    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0))));
-    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(0.0, 1.0, 0.0))));
+    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(1.0, 0.0, 0.0))));
+    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(1.0, 0.0, 0.0))));
     
     glm::vec3 quadp1 = glm::vec3(-6, -3.5, -1);
 	glm::vec3 quadp2 = glm::vec3(-6, -3.5, -20);
 	glm::vec3 quadp3 = glm::vec3(8, -3.5, -1);
 	glm::vec3 quadp4 = glm::vec3(8, -3.5, -20);
 
-    world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0))));
-    world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0))));
     
     // lights
-    world.Add(std::make_unique<Light>(Light(glm::vec3(0.0f, 5.0f, -2.0f), glm::vec3(0.5f, 0.0f, 0.0f))));
+    world.Add(std::make_unique<Light>(Light(glm::vec3(-1.0f, 3.0f, -4.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
 
 
     //Add camera
@@ -80,6 +89,12 @@ int main(int argc, char* argv[]) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
             glm::vec3 radianceValues = radianceArray[index];  // Get corresponding pixel radiance
+            if (index == 31101) {
+                radianceValues = radianceValues;
+            }
+            //if (radianceValues == glm::vec3(1.0f, 0.0f, 0.0f)) {
+            //    radianceValues *= 255.0f;
+            //}
 
             ///////////////////////
             ///TONE REPRODUCTION///
@@ -94,7 +109,8 @@ int main(int argc, char* argv[]) {
             uint8_t a = 255;  // Full opacity
 
             // Store pixel color in correct endian order
-            pixels[y * (surface->pitch/4) + x] = SDL_Swap32LE((a << 24) | (r << 16) | (g << 8) | b);
+            pixels[y * (surface->pitch/4) + x] = SDL_Swap32LE((a << 24) | (b << 16) | (g << 8) | r);
+
         }
     }
 
