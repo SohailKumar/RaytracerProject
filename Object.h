@@ -1,6 +1,9 @@
 #include <glm/glm.hpp>
+#include <memory>
+
 #include "Ray.h"
 #include "Material.h"
+#include "Light.h"
 
 #ifndef OBJECT_H
 #define OBJECT_H
@@ -17,7 +20,7 @@ class Object {
 public:
     //Object() {};
 
-    Material radiance;
+    Material material;
     glm::vec3 rgb;
 
     
@@ -25,7 +28,7 @@ public:
 
     virtual void Transform(glm::mat4 transformMatrix) = 0; //setting these to 0 means that it is purely virtual function
 
-    virtual void CalculateColor(IntersectionData& intersectionData) const = 0;
+    virtual glm::vec3 CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const = 0;
 };
 
 #endif

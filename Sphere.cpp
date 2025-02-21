@@ -10,7 +10,7 @@ Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 radianceValues)
 {
 	this->center = center;
 	this->radius = radius;
-	this->radiance = Material(radianceValues);
+	this->material = Material(radianceValues);
 	this->rgb = radianceValues * 255.0f;
 }
 
@@ -50,4 +50,9 @@ void Sphere::Transform(glm::mat4 transformMatrix) {
 	//std::cout << "before " << glm::to_string(this->center) << std::endl;
 	this->center = transformMatrix * glm::vec4(center, 1.0);
 	//std::cout << "after " << glm::to_string(this->center) << std::endl;
+}
+
+glm::vec3 Sphere::CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const
+{
+	return this->material.radianceValues;
 }

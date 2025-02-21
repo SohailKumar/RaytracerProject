@@ -2,6 +2,7 @@
 #include "Ray.h"
 #include "Object.h"
 #include "Material.h"
+#include "Light.h"
 
 #ifndef SPHERE_H
 #define SPHERE_H
@@ -15,6 +16,7 @@ public:
 
     bool Intersect(Ray& r, IntersectionData& intersectionData) const override;
 	void Transform(glm::mat4 transformMatrix) override;
+    glm::vec3 CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const override;
 
 };
 

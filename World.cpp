@@ -30,21 +30,24 @@ void World::transformAll(glm::mat4 viewMatrix) {
 
 glm::vec3 World::spawn(Ray r) {
 	//should return a color
-	IntersectionData intersectionData = {};
-	if (!checkRayObjectIntersect(r, intersectionData)) {
+	IntersectionData primaryIntersection = {}; // this will also contain a pointer to the material 
+	if (!checkRayObjectIntersect(r, primaryIntersection)) {
 		return glm::vec3(0.0f, 0.0f, 0.0f);
 	}//else it populates intersectionData variable
 
 	IntersectionData secondaryIntersection = {};
 
 	for (const auto& light : this->lights) {
-		Ray rayToLight = Ray(intersectionData.point, glm::normalize(light->position - intersectionData.point));
+		Ray rayToLight = Ray(primaryIntersection.point, glm::normalize(light->position - primaryIntersection.point));
 
 		if (checkRayObjectIntersect(rayToLight, secondaryIntersection)) {
 			return glm::vec3(0.0f, 0.0f, 0.0f);
 		}
-		return glm::vec3(1.0f, 0.0f, 0.0f); //TODO: REPLACE WITH MATERIAL DATA
+		//TODO: REPLACE WITH MATERIAL DATA
+		//return primaryIntersection.obj->CalculateColor(primaryIntersection, &this->lights);
+		return glm::vec3(1.0f, 0.0f, 0.0f);
 	}
+	return glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 bool World::checkRayObjectIntersect(Ray r, IntersectionData& intersectionData) {

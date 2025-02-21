@@ -8,7 +8,7 @@
 
 Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues) {
 	this->points = points;
-	this->radiance = Material(radianceValues);
+	this->material = Material(radianceValues);
 	this->rgb = radianceValues * 255.0f;
 }	
 
@@ -68,4 +68,9 @@ void Triangle::Transform(glm::mat4 transformMatrix) {
 	for (glm::vec3& point : this->points) { //you need the & to get the reference to the actual point.
 		point = transformMatrix * glm::vec4(point, 1.0);
 	}
+}
+
+glm::vec3 Triangle::CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const
+{
+	return this->material.radianceValues;
 }
