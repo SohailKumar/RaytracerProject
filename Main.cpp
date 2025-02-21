@@ -57,16 +57,16 @@ int main(int argc, char* argv[]) {
 	World world = World();
 
     // objects
-    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(1.0, 0.0, 0.0))));
-    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(1.0, 0.0, 0.0))));
+    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 1.0, 0.0))));
+    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(0.0, 0.0, 1.0))));
     
     glm::vec3 quadp1 = glm::vec3(-6, -3.5, -1);
 	glm::vec3 quadp2 = glm::vec3(-6, -3.5, -20);
 	glm::vec3 quadp3 = glm::vec3(8, -3.5, -1);
 	glm::vec3 quadp4 = glm::vec3(8, -3.5, -20);
 
-    //world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0))));
-    //world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0))));
+    world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0))));
+    world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0))));
     
     // lights
     world.Add(std::make_unique<Light>(Light(glm::vec3(-1.0f, 3.0f, -4.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
     ////////////////////////////////////////////////////////////////////////////////////
     surface = SDL_CreateSurface(WINDOW_WIDTH, WINDOW_HEIGHT, SDL_PIXELFORMAT_RGBA32);
 
-    uint32_t* pixels = static_cast<uint32_t*>(surface->pixels);
+    Uint32* pixels = static_cast<Uint32*>(surface->pixels);
 
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
@@ -101,15 +101,27 @@ int main(int argc, char* argv[]) {
             radianceValues *= 255.0f;
             ///////////////////////
 
+            int offset = y * WINDOW_WIDTH + x;
+
             // Convert from float [0,1] to uint8_t [0,255]
             uint8_t r = static_cast<uint8_t>(radianceValues[0]);
             uint8_t g = static_cast<uint8_t>(radianceValues[1]);
             uint8_t b = static_cast<uint8_t>(radianceValues[2]);
-			//std::cout << "r: " << radiance->radianceValues[0] << ", g: " << radiance->radianceValues[1] << ", b: " << radiance->radianceValues[2] << std::endl;
             uint8_t a = 255;  // Full opacity
 
+            //Uint32 color = SDL_MapSurfaceRGBA(surface, r, g, b, a);
+            //if (radianceValues != glm::vec3(0.0f, 0.0f, 0.0f)) {
+            //    std::cout << "r: " << radianceValues[0] << ", g: " << radianceValues[1] << ", b: " << radianceValues[2] << std::endl;
+            //}
+
+
             // Store pixel color in correct endian order
-            pixels[y * (surface->pitch/4) + x] = SDL_Swap32LE((a << 24) | (b << 16) | (g << 8) | r);
+
+            //pixels[y * (surface->pitch/4) + x] = SDL_Swap32LE((a << 24) | (b << 16) | (g << 8) | r);
+            Uint32 color = (a << 24) | (b << 16) | (g << 8) | r;
+
+            // Store the pixel value in the correct position in the pixels array
+            pixels[y * WINDOW_WIDTH + x] = color;
 
         }
     }

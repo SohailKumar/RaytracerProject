@@ -54,8 +54,8 @@ glm::vec3 World::spawn(Ray r) {
 		//return intersectingObject->
 		//std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0)));
 		//intersectingObject = reinterpret_cast<std::unique_ptr<Object>*>(&sphere);
-		//return intersectingObject->CalculateColor(primaryIntersection, &this->lights);
-		return glm::vec3(0.0f, 1.0f, 0.0f);
+		return intersectingObject->CalculateColor(primaryIntersection, &this->lights);
+		//return glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 	return glm::vec3(0.0f, 0.0f, 0.0f);
 }
