@@ -14,7 +14,7 @@ Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 radianceValues)
 	this->rgb = radianceValues * 255.0f;
 }
 
-bool Sphere::Intersect(Ray& r) {
+bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
 	glm::vec3 differenceOriginCenter = r.origin - this->center;
 
 	double a = 1;
@@ -31,9 +31,15 @@ bool Sphere::Intersect(Ray& r) {
 	double t2 = (-b + sqrtDiscriminant) / 2.0f;
 
 	if (t1 > 0) {
+		//TODO intersectionData = 
+		intersectionData = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+
 		return true;
 	}
 	if (t2 > 0) {
+		//TODO intersectionData = 
+		intersectionData = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+
 		return true;
 	}
 	return false;

@@ -48,20 +48,19 @@ int main(int argc, char* argv[]) {
 	World world = World();
 
     // objects
+    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0))));
+    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(0.0, 1.0, 0.0))));
+    
     glm::vec3 quadp1 = glm::vec3(-6, -3.5, -1);
 	glm::vec3 quadp2 = glm::vec3(-6, -3.5, -20);
 	glm::vec3 quadp3 = glm::vec3(8, -3.5, -1);
 	glm::vec3 quadp4 = glm::vec3(8, -3.5, -20);
 
-	world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0))));
-    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, glm::vec3(0.0, 1.0, 0.0))));
     world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, glm::vec3(1.0, 0.0, 0.0))));
     world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, glm::vec3(1.0, 0.0, 0.0))));
     
-
     // lights
-    //std::unique_ptr<Light> light1 = std::make_unique<Light>(Light(glm::vec3(0.0f, 5.0f, -2.0f), glm::vec3(0.5f, 0.0f, 0.0f)));
-    //world.Add(s)
+    world.Add(std::make_unique<Light>(Light(glm::vec3(0.0f, 5.0f, -2.0f), glm::vec3(0.5f, 0.0f, 0.0f))));
 
 
     //Add camera

@@ -12,7 +12,7 @@ Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues) {
 	this->rgb = radianceValues * 255.0f;
 }	
 
-bool Triangle::Intersect(Ray& r) {
+bool Triangle::Intersect(Ray& r, IntersectionData& intersectionData) const {
 	
 	//for each triangle
 	for (int i = 0; i < this->points.size()-2; i++) 
@@ -53,6 +53,9 @@ bool Triangle::Intersect(Ray& r) {
 		float vw = 1.0f - v - w;
 
 		if (vw >= 0 && v >= 0 && w >= 0) {
+			//TODO intersectionData = 
+			intersectionData = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+
 			return true;
 		}
 		return false;

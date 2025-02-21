@@ -19,6 +19,7 @@ public:
 	void Add(std::unique_ptr<Light> light);
 
 	void transformAll(glm::mat4 viewMatrix);
-	glm::vec3 spawn(Ray r);
 
+	glm::vec3 spawn(Ray r);
+	bool checkRayObjectIntersect(Ray r, IntersectionData& intersectionData);
 };

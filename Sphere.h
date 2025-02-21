@@ -13,7 +13,7 @@ public:
     
     Sphere(glm::vec3 center, double radius, glm::vec3 radianceValues);
 
-    bool Intersect(Ray& r) override;
+    bool Intersect(Ray& r, IntersectionData& intersectionData) const override;
 	void Transform(glm::mat4 transformMatrix) override;
 
 };

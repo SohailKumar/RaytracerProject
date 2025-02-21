@@ -29,20 +29,29 @@ void World::transformAll(glm::mat4 viewMatrix) {
 }
 
 glm::vec3 World::spawn(Ray r) {
-	//loop through objects in objects array.
-	//if object intersects with ray, return object
-	//else return NULL
-	for (const auto& obj : this->objects) {
-		//std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
-		/*if (r.direction[0] < 0.05 && r.direction[0] > -0.05 && r.direction[1] < 0.05 && r.direction[1] > -0.05) {
-			std::cout << "Ray: " << glm::to_string(r.direction) << std::endl;
-		}*/
-		if (obj->Intersect(r)) {
+	//should return a color
+	IntersectionData intersectionData = {};
+	if (!checkRayObjectIntersect(r, intersectionData)) {
+		return glm::vec3(0.0f, 0.0f, 0.0f);
+	}//else it populates intersectionData variable
 
-			//std::cout << "INTERSECT";
-			return obj->radiance.radianceValues;
+	IntersectionData secondaryIntersection = {};
+
+	for (const auto& light : this->lights) {
+		Ray rayToLight = Ray(intersectionData.point, glm::normalize(light->position - intersectionData.point));
+
+		if (checkRayObjectIntersect(rayToLight, secondaryIntersection)) {
+			return glm::vec3(0.0f, 0.0f, 0.0f);
 		}
-
+		return glm::vec3(1.0f, 0.0f, 0.0f); //TODO: REPLACE WITH MATERIAL DATA
 	}
-	return glm::vec3(0.0f, 0.0f, 0.0f);
+}
+
+bool World::checkRayObjectIntersect(Ray r, IntersectionData& intersectionData) {
+	for (const auto& obj : this->objects) {
+		if (obj->Intersect(r, intersectionData)) {
+			return true;
+		}
+	}
+	return false;
 }
