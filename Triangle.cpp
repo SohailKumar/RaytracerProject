@@ -54,7 +54,7 @@ bool Triangle::Intersect(Ray& r, IntersectionData& intersectionData) const {
 
 		if (vw >= 0 && v >= 0 && w >= 0) {
 			//TODO intersectionData = 
-			intersectionData = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+			intersectionData = { intersectionPoint, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
 
 			return true;
 		}

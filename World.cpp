@@ -44,10 +44,13 @@ glm::vec3 World::spawn(Ray r) {
 	IntersectionData secondaryIntersection = {};
 
 	for (const auto& light : this->lights) {
+		if (primaryIntersection.point[2] > 6.5f && primaryIntersection.point[2] < 7.5f && primaryIntersection.point[1] > 3.0f && primaryIntersection.point[1] < 3.4f) {
+			std::println("check {}, {}, {}", primaryIntersection.point[0], primaryIntersection.point[1], primaryIntersection.point[2]);
+		}
 		Ray rayToLight = Ray(primaryIntersection.point, glm::normalize(light->position - primaryIntersection.point));
 		Object* randomObject;
 		if (checkRayObjectIntersect(rayToLight, secondaryIntersection, randomObject)) {
-			std::println("yes intersect");
+			//std::println("yes intersect");
 			return glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 		//TODO: REPLACE WITH MATERIAL DATA
