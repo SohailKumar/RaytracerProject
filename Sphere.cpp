@@ -31,14 +31,16 @@ bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
 	double t2 = (-b + sqrtDiscriminant) / 2.0f;
 
 	if (t1 > 0) {
-		//TODO intersectionData = 
-		intersectionData = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
+		intersectionData = { intersectionPoint, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
 
 		return true;
 	}
+	//IF INSIDE OBJECT
 	if (t2 > 0) {
+		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
 		//TODO intersectionData = 
-		intersectionData = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+		intersectionData = { intersectionPoint, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
 
 		return true;
 	}

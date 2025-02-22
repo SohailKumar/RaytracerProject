@@ -34,6 +34,8 @@ void World::transformAll(glm::mat4 viewMatrix) {
 }
 
 glm::vec3 World::spawn(Ray r) {
+	float epsilon = 0.01;
+
 	//should return a color
 	IntersectionData primaryIntersection = {}; // this will also contain a pointer to the material 
 	Object* intersectingObject;
@@ -47,7 +49,8 @@ glm::vec3 World::spawn(Ray r) {
 		if (primaryIntersection.point[2] > 6.5f && primaryIntersection.point[2] < 7.5f && primaryIntersection.point[1] > 3.0f && primaryIntersection.point[1] < 3.4f) {
 			std::println("check {}, {}, {}", primaryIntersection.point[0], primaryIntersection.point[1], primaryIntersection.point[2]);
 		}
-		Ray rayToLight = Ray(primaryIntersection.point, glm::normalize(light->position - primaryIntersection.point));
+		glm::vec3 rayToLightDir = glm::normalize(light->position - primaryIntersection.point);
+		Ray rayToLight = Ray(primaryIntersection.point + epsilon * rayToLightDir, rayToLightDir);
 		Object* randomObject;
 		if (checkRayObjectIntersect(rayToLight, secondaryIntersection, randomObject)) {
 			//std::println("yes intersect");
