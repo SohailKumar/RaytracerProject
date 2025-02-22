@@ -53,7 +53,7 @@ bool Triangle::Intersect(Ray& r, IntersectionData& intersectionData) const {
 
 		if (vw >= 0 && v >= 0 && w >= 0) {
 			//TODO intersectionData = 
-			intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f };
+			intersectionData = { intersectionPoint, glm::normalize(normal *= -1) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f };
 
 			return true;
 		}
