@@ -6,10 +6,9 @@
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/string_cast.hpp>
 
-Triangle::Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues) {
+Triangle::Triangle(std::vector<glm::vec3> points, Material mat) {
 	this->points = points;
-	this->material = Material(radianceValues);
-	this->rgb = radianceValues * 255.0f;
+	this->material = mat;
 }	
 
 bool Triangle::Intersect(Ray& r, IntersectionData& intersectionData) const {
@@ -54,7 +53,7 @@ bool Triangle::Intersect(Ray& r, IntersectionData& intersectionData) const {
 
 		if (vw >= 0 && v >= 0 && w >= 0) {
 			//TODO intersectionData = 
-			intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+			intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f };
 
 			return true;
 		}
@@ -70,7 +69,7 @@ void Triangle::Transform(glm::mat4 transformMatrix) {
 	}
 }
 
-glm::vec3 Triangle::CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const
+std::tuple<glm::vec3, glm::vec3> Triangle::CalculateColor(IntersectionData& intersectionData, const Light* light)
 {
-	return this->material.radianceValues;
+	return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
 }

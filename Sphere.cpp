@@ -6,12 +6,11 @@
 //#include <glm/gtx/string_cast.hpp>
 
 
-Sphere::Sphere(glm::vec3 center, double radius, glm::vec3 radianceValues)
+Sphere::Sphere(glm::vec3 center, double radius, Material mat)
 {
 	this->center = center;
 	this->radius = radius;
-	this->material = Material(radianceValues);
-	this->rgb = radianceValues * 255.0f;
+	this->material = mat;
 }
 
 bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
@@ -33,15 +32,16 @@ bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
 	if (t1 > 0) {
 		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
 		glm::vec3 normal = glm::normalize(intersectionPoint - this->center);
-		intersectionData = { intersectionPoint, normal, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+		intersectionData = { intersectionPoint, normal, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction *= -1.0f};
 
 		return true;
 	}
 	//IF INSIDE OBJECT
 	if (t2 > 0) {
 		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
+		glm::vec3 normal = glm::normalize(intersectionPoint - this->center);
 		//TODO intersectionData = 
-		intersectionData = { intersectionPoint, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+		intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction *= -1.0f };
 
 		return true;
 	}
@@ -55,7 +55,7 @@ void Sphere::Transform(glm::mat4 transformMatrix) {
 	//std::cout << "after " << glm::to_string(this->center) << std::endl;
 }
 
-glm::vec3 Sphere::CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const
+std::tuple<glm::vec3, glm::vec3> Sphere::CalculateColor(IntersectionData& intersectionData, const Light* light)
 {
-	return this->material.radianceValues;
+	return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
 }

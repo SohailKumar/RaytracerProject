@@ -12,7 +12,8 @@ typedef struct {
     glm::vec3 point;
     glm::vec3 normal;
     glm::vec3 incoming; //incoming light
-    glm::vec3 reflective;
+    glm::vec3 reflection;
+    glm::vec3 viewDir;
     std::vector<std::unique_ptr<Light>>* lights;
 } IntersectionData;
 
@@ -21,13 +22,12 @@ public:
     //Object() {};
 
     Material material;
-    glm::vec3 rgb;
 
     virtual bool Intersect(Ray& r, IntersectionData& intersectionData) const = 0; //checks if this object intersects with Ray
 
     virtual void Transform(glm::mat4 transformMatrix) = 0; //setting these to 0 means that it is purely virtual function
 
-    virtual glm::vec3 CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const = 0;
+    virtual std::tuple<glm::vec3, glm::vec3> CalculateColor(IntersectionData& intersectionData, const Light* light) = 0;
 };
 
 #endif

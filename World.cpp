@@ -45,7 +45,10 @@ glm::vec3 World::Spawn(Ray r) {
 
 	IntersectionData secondaryIntersection = {};
 
-	glm::vec3 returnRadiance = glm::vec3(0.0f, 0.0f, 0.0f);
+	//std::tuple<glm::vec3, glm::vec3> returnValues = { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f) };
+	glm::vec3 diffuseVariable = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 specularVariable = glm::vec3(0.0f, 0.0f, 0.0f);
+
 	for (const auto& light : this->lights) {
 		if (primaryIntersection.point[2] > 6.5f && primaryIntersection.point[2] < 7.5f && primaryIntersection.point[1] > 3.0f && primaryIntersection.point[1] < 3.4f) {
 			std::println("check {}, {}, {}", primaryIntersection.point[0], primaryIntersection.point[1], primaryIntersection.point[2]);
@@ -54,21 +57,25 @@ glm::vec3 World::Spawn(Ray r) {
 		Ray rayToLight = Ray(primaryIntersection.point + epsilon * rayToLightDir, rayToLightDir);
 		Object* randomObject;
 		if (CheckRayObjectIntersect(rayToLight, secondaryIntersection, randomObject)) {
-			//std::println("yes intersect");
+			//currently in shadow
 			//return glm::vec3(0.0f, 0.0f, 0.0f);
 			continue;
 		}
 		primaryIntersection.incoming = rayToLightDir * -1.0f;
-		primaryIntersection.reflective = Reflect(primaryIntersection.point, primaryIntersection.incoming, primaryIntersection.normal);
+		primaryIntersection.reflection = Reflect(primaryIntersection.point, primaryIntersection.incoming, primaryIntersection.normal);
 
 		//TODO: REPLACE WITH MATERIAL DATA
 		//return intersectingObject->
 		//std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0)));
 		//intersectingObject = reinterpret_cast<std::unique_ptr<Object>*>(&sphere);
-		returnRadiance = intersectingObject->CalculateColor(primaryIntersection, &this->lights);
+		auto [diffuseVariableTemp, specularVariableTemp] = intersectingObject->CalculateColor(primaryIntersection, light.get());
+		diffuseVariable += diffuseVariableTemp;
+		specularVariable += specularVariableTemp;
+
 		//return glm::vec3(0.0f, 1.0f, 0.0f);
 	}
-	return returnRadiance;
+	return (intersectingObject->material.ambient_k * intersectingObject->material.diffuseColor* glm::vec3(0.2f, 0.2f, 0.2f)) + (intersectingObject->material.diffuse_k * diffuseVariable) + (intersectingObject->material.specular_k * specularVariable);
+	//return returnRadiance;
 	//return glm::vec3(0.0f, 0.0f, 0.0f);
 }
 

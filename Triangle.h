@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <vector>
+#include <tuple>
 
 #include "Ray.h"
 #include "Object.h"
@@ -11,11 +12,9 @@ class Triangle : public Object {
 public:
     std::vector<glm::vec3> points;
 
-    Triangle(std::vector<glm::vec3> points, glm::vec3 radianceValues);
+    Triangle(std::vector<glm::vec3> points, Material mat);
 
     bool Intersect(Ray& r, IntersectionData& intersectionData) const override;
     void Transform(glm::mat4 transformMatrix) override;
-    glm::vec3 CalculateColor(IntersectionData& intersectionData, std::vector<std::unique_ptr<Light>>* lights) const override;
-
-
+    std::tuple<glm::vec3, glm::vec3> CalculateColor(IntersectionData& intersectionData, const Light* light) override;
 };
