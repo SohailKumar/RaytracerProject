@@ -71,6 +71,7 @@ int main(int argc, char* argv[]) {
     
     // lights
     world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 20.0f, -6.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
+    //world.Add(std::make_unique<Light>(Light(glm::vec3(-3.0f, 5.0f, -3.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
 
 
     //Add camera

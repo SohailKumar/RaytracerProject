@@ -34,7 +34,7 @@ void World::transformAll(glm::mat4 viewMatrix) {
 }
 
 glm::vec3 World::spawn(Ray r) {
-	float epsilon = 0.01;
+	float epsilon = 0.001;
 
 	//should return a color
 	IntersectionData primaryIntersection = {}; // this will also contain a pointer to the material 
@@ -45,6 +45,7 @@ glm::vec3 World::spawn(Ray r) {
 
 	IntersectionData secondaryIntersection = {};
 
+	glm::vec3 returnRadiance = glm::vec3(0.0f, 0.0f, 0.0f);
 	for (const auto& light : this->lights) {
 		if (primaryIntersection.point[2] > 6.5f && primaryIntersection.point[2] < 7.5f && primaryIntersection.point[1] > 3.0f && primaryIntersection.point[1] < 3.4f) {
 			std::println("check {}, {}, {}", primaryIntersection.point[0], primaryIntersection.point[1], primaryIntersection.point[2]);
@@ -54,16 +55,18 @@ glm::vec3 World::spawn(Ray r) {
 		Object* randomObject;
 		if (checkRayObjectIntersect(rayToLight, secondaryIntersection, randomObject)) {
 			//std::println("yes intersect");
-			return glm::vec3(0.0f, 0.0f, 0.0f);
+			//return glm::vec3(0.0f, 0.0f, 0.0f);
+			continue;
 		}
 		//TODO: REPLACE WITH MATERIAL DATA
 		//return intersectingObject->
 		//std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0)));
 		//intersectingObject = reinterpret_cast<std::unique_ptr<Object>*>(&sphere);
-		return intersectingObject->CalculateColor(primaryIntersection, &this->lights);
+		returnRadiance = intersectingObject->CalculateColor(primaryIntersection, &this->lights);
 		//return glm::vec3(0.0f, 1.0f, 0.0f);
 	}
-	return glm::vec3(0.0f, 0.0f, 0.0f);
+	return returnRadiance;
+	//return glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 bool World::checkRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj) {
