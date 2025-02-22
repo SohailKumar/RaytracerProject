@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 
     //Add camera
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, -5.0f), 8.0, 16, 9);
-	world.transformAll(camera.GetViewMatrix());
+	world.TransformAll(camera.GetViewMatrix());
 
     std::vector<glm::vec3> radianceArray = camera.RenderWorld(world, WINDOW_WIDTH, WINDOW_HEIGHT);
     //std::println("length = {}", rgbArray.size());

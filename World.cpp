@@ -25,7 +25,7 @@ void World::Add(std::unique_ptr<Light> light) {
 	this->lights.push_back(std::move(light));
 }
 
-void World::transformAll(glm::mat4 viewMatrix) {
+void World::TransformAll(glm::mat4 viewMatrix) {
 	for (auto& obj : this->objects) {
 		obj->Transform(viewMatrix);
 	}
@@ -33,13 +33,13 @@ void World::transformAll(glm::mat4 viewMatrix) {
 	return;
 }
 
-glm::vec3 World::spawn(Ray r) {
-	float epsilon = 0.001;
+glm::vec3 World::Spawn(Ray r) {
+	float epsilon = 0.01;
 
 	//should return a color
 	IntersectionData primaryIntersection = {}; // this will also contain a pointer to the material 
 	Object* intersectingObject;
-	if (!checkRayObjectIntersect(r, primaryIntersection, intersectingObject)) {
+	if (!CheckRayObjectIntersect(r, primaryIntersection, intersectingObject)) {
 		return glm::vec3(0.0f, 0.0f, 0.0f);
 	}//else it populates intersectionData variable
 
@@ -53,11 +53,14 @@ glm::vec3 World::spawn(Ray r) {
 		glm::vec3 rayToLightDir = glm::normalize(light->position - primaryIntersection.point);
 		Ray rayToLight = Ray(primaryIntersection.point + epsilon * rayToLightDir, rayToLightDir);
 		Object* randomObject;
-		if (checkRayObjectIntersect(rayToLight, secondaryIntersection, randomObject)) {
+		if (CheckRayObjectIntersect(rayToLight, secondaryIntersection, randomObject)) {
 			//std::println("yes intersect");
 			//return glm::vec3(0.0f, 0.0f, 0.0f);
 			continue;
 		}
+		primaryIntersection.incoming = rayToLightDir * -1.0f;
+		primaryIntersection.reflective = Reflect(primaryIntersection.point, primaryIntersection.incoming, primaryIntersection.normal);
+
 		//TODO: REPLACE WITH MATERIAL DATA
 		//return intersectingObject->
 		//std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, glm::vec3(0.0, 0.0, 1.0)));
@@ -69,7 +72,13 @@ glm::vec3 World::spawn(Ray r) {
 	//return glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
-bool World::checkRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj) {
+glm::vec3 World::Reflect(glm::vec3 point, glm::vec3 rayToReflect, glm::vec3 normalVec) 
+{
+	return glm::normalize((rayToReflect - (2.0f * normalVec * (glm::dot(rayToReflect, normalVec)))));
+}
+
+bool World::CheckRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj) 
+{
 	for (const auto& obj : this->objects) {
 		if (obj->Intersect(r, intersectionData)) {
 			retObj = obj.get();

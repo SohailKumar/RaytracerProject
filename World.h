@@ -19,10 +19,12 @@ public:
 	void Add(std::unique_ptr<Object> obj);
 	void Add(std::unique_ptr<Light> light);
 
-	void transformAll(glm::mat4 viewMatrix);
+	void TransformAll(glm::mat4 viewMatrix);
 
-	glm::vec3 spawn(Ray r);
+	glm::vec3 Spawn(Ray r);
 
 	//TODO: make intersectiondata optional.
-	bool checkRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj);
+	bool CheckRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj);
+
+	glm::vec3 Reflect(glm::vec3 point, glm::vec3 rayToReflect, glm::vec3 normalVec);
 };

@@ -45,7 +45,7 @@ std::vector<glm::vec3> Camera::RenderWorld(World& world, int windowWidth, int wi
             glm::vec3 direction = glm::normalize(pixel - glm::vec3(0, 0, 0));
 
             //glm::vec3 rgbRet = world.spawn(Ray(glm::vec3(0, 0, 0), direction));
-            glm::vec3 radianceRet = world.spawn(Ray(glm::vec3(0, 0, 0), direction));
+            glm::vec3 radianceRet = world.Spawn(Ray(glm::vec3(0, 0, 0), direction));
             //std::cout << "i: " << i << ", j: " << j << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
 
             //rgbRet *= 255;

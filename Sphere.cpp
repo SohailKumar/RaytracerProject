@@ -32,7 +32,8 @@ bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
 
 	if (t1 > 0) {
 		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
-		intersectionData = { intersectionPoint, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
+		glm::vec3 normal = glm::normalize(intersectionPoint - this->center);
+		intersectionData = { intersectionPoint, normal, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f) };
 
 		return true;
 	}
