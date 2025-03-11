@@ -38,7 +38,7 @@ std::tuple<glm::vec3, glm::vec3> Material::CalculateRadiance(glm::vec3 point, gl
 	//	std::println("DOT2 = {}", glm::dot(reflection, viewDir), glm::clamp(glm::dot(reflection, viewDir), 0.0f, 1.0f));
 	//}
 	glm::vec3 diffuse = light->color * this->diffuseColor * (glm::clamp(glm::dot(incoming, normal), 0.0f, 1.0f));
-	glm::vec3 specular = light->color * this->specularColor * std::pow(glm::clamp(glm::dot((reflection*-1.0f), viewDir), 0.0f, 1.0f), shiny_exp);
+	glm::vec3 specular = light->color * this->specularColor * std::pow(glm::clamp(glm::dot((reflection), viewDir), 0.0f, 1.0f), shiny_exp);
 	//TODO: Fix reflection to be 
 	return {diffuse, specular};
 }

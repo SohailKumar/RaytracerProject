@@ -33,6 +33,13 @@ int main(int argc, char* argv[]) {
     //uint8_t r = static_cast<uint8_t>(br[0]);
     //std::println("r = {}", r);
 
+    //World.Reflect(primaryIntersection.point, primaryIntersection.incoming, primaryIntersection.normal);
+    //World newWorld;
+    //glm::vec3 prev = glm::normalize(glm::vec3(1.0f, 1.0f, 0.0f));
+    //glm::vec3 newVector3 = newWorld.Reflect(glm::vec3(0.0f, 0.0f, 0.0f), glm::normalize(glm::vec3(1.0f, 1.0f, 0.0f)), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
+    //std::println("previous = {}, {}, {}", prev[0], prev[1], prev[2]);
+    //std::println("newVector3 = {}, {}, {}", newVector3[0], newVector3[1], newVector3[2]);
+
     //return 0;
 
 
@@ -58,16 +65,16 @@ int main(int argc, char* argv[]) {
 
     // objects
     world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(-1.0f, 1.0f, -4.0f), 3, Material(glm::vec3(0.0, 1.0, 0.0), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.9f, 2.0f))));
-    world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, Material(glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.9f, 2.0f))));
+    //world.Add(std::make_unique<Sphere>(Sphere(glm::vec3(3.2f, -0.9f, -7.0f), 3, Material(glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.9f, 2.0f))));
 
     glm::vec3 quadp1 = glm::vec3(-9, -5, -1);
 	glm::vec3 quadp2 = glm::vec3(-9, -5, -25);
 	glm::vec3 quadp3 = glm::vec3(10, -5, -1);
 	glm::vec3 quadp4 = glm::vec3(10, -5, -25);
 
-    world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
+ /*   world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
     world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
-    
+ */   
     // lights
     //world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.3f, 0.3f, 0.3f))));
     world.Add(std::make_unique<Light>(Light(glm::vec3(0.0f, 8.0f, 4.0f), glm::vec3(0.2f, 0.2f, 0.2f))));
@@ -134,6 +141,8 @@ int main(int argc, char* argv[]) {
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer, texture, nullptr, nullptr);
     SDL_RenderPresent(renderer);
+
+    std::cout << "Done" << std::endl;
 
     //Wait for user to close the window
     while (1) {

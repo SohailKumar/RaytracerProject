@@ -26,5 +26,5 @@ public:
 	//TODO: make intersectiondata optional.
 	bool CheckRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj);
 
-	glm::vec3 Reflect(glm::vec3 point, glm::vec3 rayToReflect, glm::vec3 normalVec);
+	glm::vec3 Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec);
 };

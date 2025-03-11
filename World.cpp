@@ -63,7 +63,7 @@ glm::vec3 World::Spawn(Ray r) {
 			continue;
 		}
 		primaryIntersection.incoming = rayToLightDir;
-		primaryIntersection.reflection = Reflect(primaryIntersection.point, primaryIntersection.incoming, primaryIntersection.normal);
+		primaryIntersection.reflection = Reflect(primaryIntersection.incoming, primaryIntersection.normal);
 
 		//TODO: REPLACE WITH MATERIAL DATA
 		//return intersectingObject->
@@ -84,9 +84,9 @@ glm::vec3 World::Spawn(Ray r) {
 	//return glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
-glm::vec3 World::Reflect(glm::vec3 point, glm::vec3 rayToReflect, glm::vec3 normalVec) 
+glm::vec3 World::Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec) 
 {
-	return glm::normalize((rayToReflect - (2.0f * normalVec * (glm::dot(rayToReflect, normalVec)))));
+	return glm::normalize((2.0f * normalVec * (glm::dot(rayToReflect, normalVec))) - rayToReflect );
 }
 
 bool World::CheckRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj) 
