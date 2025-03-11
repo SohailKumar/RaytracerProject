@@ -52,6 +52,7 @@ void Sphere::Transform(glm::mat4 transformMatrix) {
 	//std::cout << "TRNSFORMING" << glm::to_string(transformMatrix) << std::endl;
 	//std::cout << "before " << glm::to_string(this->center) << std::endl;
 	this->center = transformMatrix * glm::vec4(center, 1.0);
+	return;
 	//std::cout << "after " << glm::to_string(this->center) << std::endl;
 }
 

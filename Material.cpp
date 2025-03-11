@@ -1,6 +1,7 @@
 #include <memory>
 #include <tuple>
 #include <cmath>
+#include <print>
 
 #include "Material.h"
 #include "Light.h"
@@ -29,7 +30,15 @@ Material::Material(glm::vec3 values, glm::vec3 diffuseColor, glm::vec3 specularC
 
 std::tuple<glm::vec3, glm::vec3> Material::CalculateRadiance(glm::vec3 point, glm::vec3 normal, glm::vec3 incoming, glm::vec3 reflection, glm::vec3 viewDir, const Light* light)
 {
-	glm::vec3 diffuse = light->color * this->diffuseColor * (glm::dot(incoming, normal));
-	glm::vec3 specular = light->color * this->specularColor * std::pow(glm::dot(reflection, viewDir), shiny_exp);
+	/*if (glm::dot(incoming, normal) < 0) {
+		std::println("DOT1 = {}, {}", glm::dot(incoming, normal), glm::clamp(glm::dot(incoming, normal), 0.0f, 1.0f));
+	}*/
+	//std::println("viewDir = {}, {}, {}", viewDir[0], viewDir[1], viewDir[2]);
+	//if (glm::dot(reflection, viewDir) < 0) {
+	//	std::println("DOT2 = {}", glm::dot(reflection, viewDir), glm::clamp(glm::dot(reflection, viewDir), 0.0f, 1.0f));
+	//}
+	glm::vec3 diffuse = light->color * this->diffuseColor * (glm::clamp(glm::dot(incoming, normal), 0.0f, 1.0f));
+	glm::vec3 specular = light->color * this->specularColor * std::pow(glm::clamp(glm::dot((reflection*-1.0f), viewDir), 0.0f, 1.0f), shiny_exp);
+	//TODO: Fix reflection to be 
 	return {diffuse, specular};
 }

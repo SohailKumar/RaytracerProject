@@ -30,6 +30,10 @@ void World::TransformAll(glm::mat4 viewMatrix) {
 		obj->Transform(viewMatrix);
 	}
 
+	for (auto& light : this->lights) {
+		light->Transform(viewMatrix);
+	}
+
 	return;
 }
 
@@ -72,8 +76,8 @@ glm::vec3 World::Spawn(Ray r) {
 		//return glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 	glm::vec3 finalColor = glm::vec3(0.0f, 0.0f, 0.0f);
-	finalColor += (intersectingObject->material.ambient_k * intersectingObject->material.diffuseColor * glm::vec3(0.2f, 0.2f, 0.2f));
-	finalColor += (intersectingObject->material.diffuse_k * diffuseVariable);
+	//finalColor += (intersectingObject->material.ambient_k * intersectingObject->material.diffuseColor * glm::vec3(0.2f, 0.2f, 0.2f));
+	//finalColor += (intersectingObject->material.diffuse_k * diffuseVariable);
 	finalColor += (intersectingObject->material.specular_k * specularVariable);
 	return finalColor;
 	//return returnRadiance;

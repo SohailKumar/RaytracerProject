@@ -9,3 +9,9 @@ Light::Light(glm::vec3 position, glm::vec3 color) {
 	this->position = position;
 	this->color = color;
 }
+
+void Light::Transform(glm::mat4 transformMatrix)
+{
+	//return;
+	this->position = transformMatrix * glm::vec4(this->position, 1.0);
+}
