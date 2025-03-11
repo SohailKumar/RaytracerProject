@@ -53,6 +53,7 @@ glm::vec3 World::Spawn(Ray r) {
 	glm::vec3 diffuseVariable = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 specularVariable = glm::vec3(0.0f, 0.0f, 0.0f);
 
+	//for each light source
 	for (const auto& light : this->lights) {
 		glm::vec3 rayToLightDir = glm::normalize(light->position - primaryIntersection.point);
 		Ray rayToLight = Ray(primaryIntersection.point + epsilon * rayToLightDir, rayToLightDir);
@@ -76,8 +77,8 @@ glm::vec3 World::Spawn(Ray r) {
 		//return glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 	glm::vec3 finalColor = glm::vec3(0.0f, 0.0f, 0.0f);
-	//finalColor += (intersectingObject->material.ambient_k * intersectingObject->material.diffuseColor * glm::vec3(0.2f, 0.2f, 0.2f));
-	//finalColor += (intersectingObject->material.diffuse_k * diffuseVariable);
+	finalColor += (intersectingObject->material.ambient_k * intersectingObject->material.diffuseColor * glm::vec3(0.2f, 0.2f, 0.2f));
+	finalColor += (intersectingObject->material.diffuse_k * diffuseVariable);
 	finalColor += (intersectingObject->material.specular_k * specularVariable);
 	return finalColor;
 	//return returnRadiance;

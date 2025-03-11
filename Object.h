@@ -1,21 +1,12 @@
+#pragma once 
+
 #include <glm/glm.hpp>
 #include <memory>
 
 #include "Ray.h"
 #include "Material.h"
 #include "Light.h"
-
-#ifndef OBJECT_H
-#define OBJECT_H
-
-typedef struct {
-    glm::vec3 point;
-    glm::vec3 normal;
-    glm::vec3 incoming; //incoming light
-    glm::vec3 reflection;
-    glm::vec3 viewDir;
-    std::vector<std::unique_ptr<Light>>* lights;
-} IntersectionData;
+#include "IntersectionData.h"
 
 class Object {
 public:
@@ -29,5 +20,3 @@ public:
 
     virtual std::tuple<glm::vec3, glm::vec3> CalculateColor(IntersectionData& intersectionData, const Light* light) = 0;
 };
-
-#endif
