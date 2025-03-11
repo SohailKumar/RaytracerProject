@@ -16,7 +16,7 @@ public:
 
     bool Intersect(Ray& r, IntersectionData& intersectionData) const override;
 	void Transform(glm::mat4 transformMatrix) override;
-    std::tuple<glm::vec3, glm::vec3> CalculateColor(IntersectionData& intersectionData, const Light* light) override;
+    //std::tuple<glm::vec3, glm::vec3> CalculateColor(IntersectionData& intersectionData, const Light* light) override;
 
 };
 

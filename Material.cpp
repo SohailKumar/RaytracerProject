@@ -7,7 +7,6 @@
 #include "Light.h"
 
 Material::Material() {
-	this->radianceValues = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	this->diffuseColor = glm::vec3(1.0f, 0.0f, 0.0f);
 	this->specularColor = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -18,7 +17,6 @@ Material::Material() {
 }
 
 Material::Material(glm::vec3 values, glm::vec3 diffuseColor, glm::vec3 specularColor, float ambient_k, float diffuse_k, float specular_k, float shiny_exp) {
-	this->radianceValues = values;
 
 	this->diffuseColor = diffuseColor;
 	this->specularColor = specularColor;

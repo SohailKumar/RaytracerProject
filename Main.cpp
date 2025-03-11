@@ -72,9 +72,9 @@ int main(int argc, char* argv[]) {
 	glm::vec3 quadp3 = glm::vec3(10, -5, -1);
 	glm::vec3 quadp4 = glm::vec3(10, -5, -25);
 
-    world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
+    /*world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
     world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
-    
+    */
     // lights
     //world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.3f, 0.3f, 0.3f))));
     world.Add(std::make_unique<Light>(Light(glm::vec3(0.0f, 8.0f, 4.0f), glm::vec3(0.2f, 0.2f, 0.2f))));

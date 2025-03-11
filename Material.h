@@ -8,7 +8,7 @@ class Material {
 public:
 	Material();
 	Material(glm::vec3 values, glm::vec3 diffuseColor, glm::vec3 specularColor, float ambient_k, float diffuse_k, float specular_k, float shiny_exp);
-	glm::vec3 radianceValues;
+	//glm::vec3 radianceValues;
 
 	glm::vec3 diffuseColor;
 	glm::vec3 specularColor;

@@ -71,7 +71,7 @@ void Triangle::Transform(glm::mat4 transformMatrix) {
 	}
 }
 
-std::tuple<glm::vec3, glm::vec3> Triangle::CalculateColor(IntersectionData& intersectionData, const Light* light)
-{
-	return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
-}
+//std::tuple<glm::vec3, glm::vec3> Triangle::CalculateColor(IntersectionData& intersectionData, const Light* light)
+//{
+//	return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
+//}

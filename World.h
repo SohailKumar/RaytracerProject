@@ -5,12 +5,17 @@
 #include <memory>
 #include <optional>
 
+class Object;
+
 #include "Object.h"
 #include "Ray.h"
 #include "Light.h"
 
 class World {
 public:
+
+	static const float epsilon;
+
 	World();
 	
 	std::vector<std::unique_ptr<Object>> objects;
