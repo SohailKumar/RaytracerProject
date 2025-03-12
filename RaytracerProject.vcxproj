@@ -147,7 +147,6 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="IlluminanceModel.h" />
-    <ClInclude Include="IlluminationModel.h" />
     <ClInclude Include="IntersectionData.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Mat_Phong.h" />
@@ -158,6 +157,9 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
