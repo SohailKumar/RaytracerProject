@@ -7,12 +7,13 @@
 //#include <glm/gtx/string_cast.hpp>
 
 
-Sphere::Sphere(glm::vec3 center, double radius, Material mat)
+Sphere::Sphere(glm::vec3 center, double radius, std::unique_ptr<IlluminanceModel> illuminanceModel)
 {
 	this->center = center;
 	this->radius = radius;
-	this->material = mat;
-	this->illuminanceModel = std::make_unique<Mat_Phong>(mat.diffuseColor, mat.specularColor, mat.ambient_k, mat.diffuse_k, mat.specular_k, mat.shiny_exp);
+	//this->material = mat;
+	this->illuminanceModel = std::move(illuminanceModel);
+	//this->illuminanceModel = std::make_unique<Mat_Phong>(mat.diffuseColor, mat.specularColor, mat.ambient_k, mat.diffuse_k, mat.specular_k, mat.shiny_exp);
 }
 
 bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
@@ -66,4 +67,9 @@ glm::vec3 Sphere::CalculateColor(IntersectionData& intersectionData, World& worl
 {
 	return this->illuminanceModel->CalculateRadiance(intersectionData, world);
 	//return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
+}
+
+std::tuple<float, float> Sphere::GetUVCoordinates(IntersectionData& intersectionData)
+{
+	return std::tuple<float, float>();
 }

@@ -47,6 +47,7 @@ glm::vec3 World::Spawn(Ray r) {
 		return glm::vec3(0.0f, 0.0f, 0.0f); //WORLD COLOR
 	}//else it populates intersectionData variable
 
+	primaryIntersection.object = intersectingObject;
 	primaryIntersection.lights = &this->lights;
 	return intersectingObject->illuminanceModel->CalculateRadiance(primaryIntersection, *this);
 

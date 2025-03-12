@@ -5,6 +5,8 @@
 #include <memory>
 #include "Light.h" // Forward declare if Light is complex
 
+class Object;
+
 typedef struct {
     glm::vec3 point;
     glm::vec3 normal;
@@ -12,4 +14,5 @@ typedef struct {
     glm::vec3 reflection;
     glm::vec3 viewDir;
     std::vector<std::unique_ptr<Light>>* lights;
+    Object* object;
 } IntersectionData;
