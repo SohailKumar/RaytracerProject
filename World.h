@@ -11,6 +11,8 @@
 
 class World {
 public:
+	static const float EPSILON;
+
 	World();
 	
 	std::vector<std::unique_ptr<Object>> objects;

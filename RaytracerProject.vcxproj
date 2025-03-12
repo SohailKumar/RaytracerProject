@@ -137,6 +137,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Mat_Phong.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Ray.cpp" />
@@ -145,9 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="IlluminanceModel.h" />
     <ClInclude Include="IlluminationModel.h" />
     <ClInclude Include="IntersectionData.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Mat_Phong.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Ray.h" />

@@ -72,11 +72,11 @@ int main(int argc, char* argv[]) {
 	glm::vec3 quadp3 = glm::vec3(10, -5, -1);
 	glm::vec3 quadp4 = glm::vec3(10, -5, -25);
 
-    world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
-    world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ quadp1, quadp2, quadp3 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ quadp3, quadp2, quadp4 }, Material(glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 0.5f, 0.5f, 1.0f, 2.0f))));
     
     // lights
-    //world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.3f, 0.3f, 0.3f))));
+    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.3f, 0.3f, 0.3f))));
     world.Add(std::make_unique<Light>(Light(glm::vec3(0.0f, 8.0f, 4.0f), glm::vec3(0.2f, 0.2f, 0.2f))));
 
 
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
             glm::vec3 radianceValues = radianceArray[index];  // Get corresponding pixel radiance
-            if (index == 31101) {
+            if (radianceValues[0] > 0) {
                 radianceValues = radianceValues;
             }
             //if (radianceValues == glm::vec3(1.0f, 0.0f, 0.0f)) {
@@ -106,6 +106,9 @@ int main(int argc, char* argv[]) {
 
             ///////////////////////
             ///TONE REPRODUCTION///
+            radianceValues[0] = std::clamp(radianceValues[0], 0.0f, 1.0f);
+            radianceValues[1] = std::clamp(radianceValues[1], 0.0f, 1.0f);
+            radianceValues[2] = std::clamp(radianceValues[2], 0.0f, 1.0f);
             radianceValues *= 255.0f;
             ///////////////////////
 
