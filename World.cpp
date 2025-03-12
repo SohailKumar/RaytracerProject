@@ -12,7 +12,7 @@
 #include "Sphere.h"
 #include <memory>
 
-const float World::epsilon = 0.01; //determines distance form object to ray origin when creating secondary rays (EG. for lights)
+const float World::EPSILON = 0.01f;
 
 World::World() {
 	return;
@@ -39,7 +39,6 @@ void World::TransformAll(glm::mat4 viewMatrix) {
 }
 
 glm::vec3 World::Spawn(Ray r) {
-	//float epsilon = 0.01;
 
 	//should return a color
 	IntersectionData primaryIntersection = {}; // this will also contain a pointer to the material 
@@ -48,10 +47,8 @@ glm::vec3 World::Spawn(Ray r) {
 		return glm::vec3(0.0f, 0.0f, 0.0f); //WORLD COLOR
 	}//else it populates intersectionData variable
 
-	//If intersecting an object
-	//	Go into intersecting object and check each light.
-
-	return intersectingObject->CalculateRadiance(primaryIntersection, *this);
+	primaryIntersection.lights = &this->lights;
+	return intersectingObject->illuminanceModel->CalculateRadiance(primaryIntersection, *this);
 
 	//IntersectionData secondaryIntersection = {};
 
@@ -62,7 +59,7 @@ glm::vec3 World::Spawn(Ray r) {
 	////for each light source
 	//for (const auto& light : this->lights) {
 	//	glm::vec3 rayToLightDir = glm::normalize(light->position - primaryIntersection.point);
-	//	Ray rayToLight = Ray(primaryIntersection.point + epsilon * rayToLightDir, rayToLightDir);
+	//	Ray rayToLight = Ray(primaryIntersection.point + this->EPSILON * rayToLightDir, rayToLightDir);
 	//	Object* randomObject;
 	//	if (CheckRayObjectIntersect(rayToLight, secondaryIntersection, randomObject)) {
 	//		//currently in shadow
@@ -87,8 +84,8 @@ glm::vec3 World::Spawn(Ray r) {
 	//finalColor += (intersectingObject->material.diffuse_k * diffuseVariable);
 	//finalColor += (intersectingObject->material.specular_k * specularVariable);
 	//return finalColor;
-	//return returnRadiance;
-	//return glm::vec3(0.0f, 0.0f, 0.0f);
+	////return returnRadiance;
+	////return glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 glm::vec3 World::Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec) 

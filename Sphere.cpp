@@ -1,7 +1,7 @@
 #include <glm/glm.hpp>
 #include "Sphere.h"
 #include "Ray.h"
-#include "PhongMat.h"
+#include "Mat_Phong.h"
 //#include <iostream>
 //#define GLM_ENABLE_EXPERIMENTAL
 //#include <glm/gtx/string_cast.hpp>
@@ -12,7 +12,7 @@ Sphere::Sphere(glm::vec3 center, double radius, Material mat)
 	this->center = center;
 	this->radius = radius;
 	this->material = mat;
-	this->illuminanceModel = std::make_unique<IlluminanceModel>(PhongMat(mat.diffuseColor, mat.specularColor, mat.ambient_k, mat.diffuse_k, mat.specular_k, mat.shiny_exp));
+	this->illuminanceModel = std::make_unique<Mat_Phong>(mat.diffuseColor, mat.specularColor, mat.ambient_k, mat.diffuse_k, mat.specular_k, mat.shiny_exp);
 }
 
 bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
@@ -62,3 +62,8 @@ void Sphere::Transform(glm::mat4 transformMatrix) {
 //{
 //	return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
 //}
+glm::vec3 Sphere::CalculateColor(IntersectionData& intersectionData, World& world)
+{
+	return this->illuminanceModel->CalculateRadiance(intersectionData, world);
+	//return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
+}

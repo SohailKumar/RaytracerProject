@@ -13,8 +13,7 @@ class Object;
 
 class World {
 public:
-
-	static const float epsilon;
+	static const float EPSILON;
 
 	World();
 	

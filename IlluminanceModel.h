@@ -6,7 +6,7 @@
 
 #include "Light.h"
 #include "IntersectionData.h"
-#include "World.h"
+class World;
 
 class IlluminanceModel {
 public:
@@ -14,4 +14,5 @@ public:
 	IntersectionData intersectionData;
 
 	virtual glm::vec3 CalculateRadiance(IntersectionData& intersectionData, World& world) = 0;
+
 };

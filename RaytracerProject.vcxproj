@@ -137,7 +137,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Phong.cpp" />
+    <ClCompile Include="Mat_Phong.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Ray.cpp" />
@@ -147,14 +147,16 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="IlluminanceModel.h" />
+    <ClInclude Include="IlluminationModel.h" />
     <ClInclude Include="IntersectionData.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="PhongMat.h" />
+    <ClInclude Include="Mat_Phong.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
