@@ -14,8 +14,10 @@ class Object;
 class World {
 public:
 	static const float EPSILON;
+	const glm::vec3 backgroundColor;
 
 	World();
+	World(glm::vec3 bgColor);
 	
 	std::vector<std::unique_ptr<Object>> objects;
 	std::vector<std::unique_ptr<Light>> lights;

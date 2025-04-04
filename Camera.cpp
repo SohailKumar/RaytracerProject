@@ -36,7 +36,7 @@ std::vector<glm::vec3> Camera::RenderWorld(World& world, int windowWidth, int wi
     double pixelHeight = this->filmPlaneHeight / windowHeight;
     std::cout << "Pixel Width: " << pixelWidth << ", Height: " << pixelHeight << std::endl;
 
-    std::vector<glm::vec3> radianceArray; //TODO CHANGE TO REGULAR ARRAY 
+    std::vector<glm::vec3> radianceArray;
 
     //starting at the bottom left and going to the top right.
     for (double j = (filmPlaneHeight / 2); j > -(filmPlaneHeight / 2); j -= pixelHeight) {
@@ -52,22 +52,6 @@ std::vector<glm::vec3> Camera::RenderWorld(World& world, int windowWidth, int wi
             radianceArray.push_back(radianceRet);
         }
     }
-
-   // for (double i = -(filmPlaneWidth / 2) ; i < (filmPlaneWidth / 2); i += pixelWidth) {
-   //     for (double j = (filmPlaneHeight / 2); j > -(filmPlaneHeight / 2); j -= pixelHeight) {
-
-   //         glm::vec3 pixel = glm::vec3(i + (pixelWidth/2), j + (pixelHeight/2), -this->focalLength); // create a ray towards center of pixel.
-   //         glm::vec3 direction = glm::normalize(pixel - glm::vec3(0,0,0));
-
-   //         glm::vec3 rgbRet = world->spawn(Ray(glm::vec3(0, 0, 0), direction));
-
-			//std::cout << "i: " << i << ", j: " << j << ", Ray: " << glm::to_string(Ray(glm::vec3(0, 0, 0), direction).direction) << std::endl;
-
-   //         rgbRet *= 255;
-   //         rgbArray.push_back(rgbRet);
-
-   //     }
-   // }
 
     return radianceArray;
 };
