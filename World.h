@@ -14,7 +14,9 @@ class Object;
 class World {
 public:
 	static const float EPSILON;
+	static const int MAX_DEPTH;
 	const glm::vec3 backgroundColor;
+	
 
 	World();
 	World(glm::vec3 bgColor);
@@ -27,10 +29,12 @@ public:
 
 	void TransformAll(glm::mat4 viewMatrix);
 
-	glm::vec3 Spawn(Ray r);
+	glm::vec3 Spawn(Ray r, int depth);
 
 	//TODO: make intersectiondata optional.
 	bool CheckRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj);
 
 	glm::vec3 Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec);
+
+
 };

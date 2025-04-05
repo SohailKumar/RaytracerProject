@@ -12,7 +12,7 @@ public:
     glm::vec3 center;
     double radius;
     
-    Sphere(glm::vec3 center, double radius, std::unique_ptr<IlluminanceModel> illuminanceModel);
+    Sphere(glm::vec3 center, double radius, float reflectionK, float transmissionK, std::unique_ptr<IlluminanceModel> illuminanceModel);
 
     bool Intersect(Ray& r, IntersectionData& intersectionData) const override;
 	void Transform(glm::mat4 transformMatrix) override;

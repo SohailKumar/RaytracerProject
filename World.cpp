@@ -13,6 +13,7 @@
 #include <memory>
 
 const float World::EPSILON = 0.01f;
+const int World::MAX_DEPTH = 3;
 
 World::World() : backgroundColor(glm::vec3(0.0f, 0.0f, 0.0f)) {
 	return;
@@ -42,7 +43,10 @@ void World::TransformAll(glm::mat4 viewMatrix) {
 	return;
 }
 
-glm::vec3 World::Spawn(Ray r) {
+
+
+//returns radiance at intersection
+glm::vec3 World::Spawn(Ray r, int depth) {
 
 	//should return a color
 	IntersectionData primaryIntersection = {}; // this will also contain a pointer to the material 
@@ -55,12 +59,27 @@ glm::vec3 World::Spawn(Ray r) {
 	primaryIntersection.object = intersectingObject;
 	primaryIntersection.lights = &this->lights;
 
-	return intersectingObject->illuminanceModel->CalculateRadiance(primaryIntersection, *this);
+	//glm::vec3 returnRadiance = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 returnRadiance = intersectingObject->illuminanceModel->CalculateRadiance(primaryIntersection, *this);
+
+	if (depth < MAX_DEPTH) {
+		if (intersectingObject->reflectionK > 0) {
+			Ray reflectionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.incoming * -1.0f, primaryIntersection.normal));
+			returnRadiance += intersectingObject->reflectionK * Spawn(reflectionRay, depth + 1);
+		}
+		if (intersectingObject->transmissionK > 0) {
+			Ray transmissionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.incoming * -1.0f, primaryIntersection.normal));
+			returnRadiance += intersectingObject->transmissionK * Spawn(transmissionRay, depth + 1);
+			std::cout << "NOT THE RIGHT ONE";
+		}
+	}
+
+	return returnRadiance;
 }
 
 glm::vec3 World::Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec) 
 {
-	return glm::normalize((2.0f * normalVec * (glm::dot(rayToReflect, normalVec))) - rayToReflect );
+	return glm::normalize(rayToReflect - (2.0f * normalVec * (glm::dot(rayToReflect, normalVec))) );
 }
 
 bool World::CheckRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj)  //TODO make object optional.

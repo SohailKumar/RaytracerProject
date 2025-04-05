@@ -17,6 +17,9 @@ public:
     //Object() {};
 
     std::unique_ptr<IlluminanceModel> illuminanceModel;
+    float reflectionK;
+    float transmissionK;
+
     //Material material;
 
     virtual bool Intersect(Ray& r, IntersectionData& intersectionData) const = 0; //checks if this object intersects with Ray

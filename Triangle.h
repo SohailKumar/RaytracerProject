@@ -13,7 +13,7 @@ class Triangle : public Object {
 public:
     std::vector<Vertex> points;
 
-    Triangle(std::vector<Vertex> points, std::unique_ptr<IlluminanceModel> illuminanceModel);
+    Triangle(std::vector<Vertex> points, float reflectionK, float transmissionK, std::unique_ptr<IlluminanceModel> illuminanceModel);
 
     bool Intersect(Ray& r, IntersectionData& intersectionData) const override;
     void Transform(glm::mat4 transformMatrix) override;

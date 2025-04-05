@@ -7,13 +7,15 @@
 //#include <glm/gtx/string_cast.hpp>
 
 
-Sphere::Sphere(glm::vec3 center, double radius, std::unique_ptr<IlluminanceModel> illuminanceModel)
+Sphere::Sphere(glm::vec3 center, double radius, float reflectionK, float transmissionK, std::unique_ptr<IlluminanceModel> illuminanceModel)
 {
 	this->center = center;
 	this->radius = radius;
-	//this->material = mat;
+
+	this->reflectionK = reflectionK;
+	this->transmissionK = transmissionK;
+
 	this->illuminanceModel = std::move(illuminanceModel);
-	//this->illuminanceModel = std::make_unique<Mat_Phong>(mat.diffuseColor, mat.specularColor, mat.ambient_k, mat.diffuse_k, mat.specular_k, mat.shiny_exp);
 }
 
 bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
@@ -43,8 +45,8 @@ bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
 	if (t2 > 0) {
 		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
 		glm::vec3 normal = glm::normalize(intersectionPoint - this->center);
-		//TODO intersectionData = 
-		intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction *= -1.0f }; //TODO Fix this ray direction stuff
+
+		intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction *= -1.0f}; //TODO Fix this ray direction stuff
 
 		return true;
 	}
@@ -52,21 +54,13 @@ bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
 }
 
 void Sphere::Transform(glm::mat4 transformMatrix) {
-	//std::cout << "TRNSFORMING" << glm::to_string(transformMatrix) << std::endl;
-	//std::cout << "before " << glm::to_string(this->center) << std::endl;
 	this->center = transformMatrix * glm::vec4(center, 1.0);
 	return;
-	//std::cout << "after " << glm::to_string(this->center) << std::endl;
 }
 
-//std::tuple<glm::vec3, glm::vec3> Sphere::CalculateColor(IntersectionData& intersectionData, const Light* light)
-//{
-//	return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
-//}
 glm::vec3 Sphere::CalculateColor(IntersectionData& intersectionData, World& world)
 {
 	return this->illuminanceModel->CalculateRadiance(intersectionData, world);
-	//return this->material.CalculateRadiance(intersectionData.point, intersectionData.normal, intersectionData.incoming, intersectionData.reflection, intersectionData.viewDir, light);
 }
 
 std::tuple<float, float> Sphere::GetUVCoordinates(IntersectionData& intersectionData)
