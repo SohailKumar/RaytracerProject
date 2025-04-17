@@ -67,13 +67,13 @@ glm::vec3 World::Spawn(Ray r, int depth) {
 			Ray reflectionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.incoming * -1.0f, primaryIntersection.normal));
 			returnRadiance += intersectingObject->reflectionK * Spawn(reflectionRay, depth + 1);
 		}
-		if (intersectingObject->transmissionK > 0) {
-			Ray transmissionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.incoming * -1.0f, primaryIntersection.normal));
-			returnRadiance += intersectingObject->transmissionK * Spawn(transmissionRay, depth + 1);
-			std::cout << "NOT THE RIGHT ONE";
-		}
+		//if (intersectingObject->transmissionK > 0) {
+		//	Ray transmissionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.incoming * -1.0f, primaryIntersection.normal));
+		//	returnRadiance = intersectingObject->transmissionK * Spawn(transmissionRay, depth + 1);
+		//	std::cout << "NOT THE RIGHT ONE";
+		//}
 	}
-
+	
 	return returnRadiance;
 }
 
