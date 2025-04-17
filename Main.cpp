@@ -36,14 +36,22 @@ int main(int argc, char* argv[]) {
     //uint8_t r = static_cast<uint8_t>(br[0]);
     //std::println("r = {}", r);
 
-    //World.Reflect(primaryIntersection.point, primaryIntersection.incoming, primaryIntersection.normal);
-    //World newWorld;
-    //glm::vec3 prev = glm::normalize(glm::vec3(1.0f, 1.0f, 0.0f));
-    //glm::vec3 newVector3 = newWorld.Reflect(glm::vec3(0.0f, 0.0f, 0.0f), glm::normalize(glm::vec3(1.0f, 1.0f, 0.0f)), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
-    //std::println("previous = {}, {}, {}", prev[0], prev[1], prev[2]);
-    //std::println("newVector3 = {}, {}, {}", newVector3[0], newVector3[1], newVector3[2]);
+ //   World newWorld;
+ //   glm::vec3 incident = glm::normalize(glm::vec3(1.0f, 1.0f, 0.0f));
+ //   glm::vec3 normal = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
+ //   glm::vec3 out = newWorld.Refract(incident *-1.0f, normal, 1.0f, 1.0f);
+	//std::cout << "incident: " << glm::to_string(incident) << std::endl;
+	//std::cout << "normal: " << glm::to_string(normal) << std::endl;
+	//std::cout << "out: " << glm::to_string(out) << std::endl;
+	//std::cout << "dot" << glm::dot(incident, normal) << std::endl;
 
-    //return 0;
+ //   std::cout << "dot" << glm::dot(incident * -1.0f, normal) << std::endl;
+ //   //glm::vec3 prev = glm::normalize(glm::vec3(1.0f, 1.0f, 0.0f));
+ //   //glm::vec3 newVector3 = newWorld.Reflect(glm::vec3(0.0f, 0.0f, 0.0f), glm::normalize(glm::vec3(1.0f, 1.0f, 0.0f)), glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f)));
+ //   //std::println("previous = {}, {}, {}", prev[0], prev[1], prev[2]);
+ //   //std::println("newVector3 = {}, {}, {}", newVector3[0], newVector3[1], newVector3[2]);
+
+ //   return 0;
 
 
     SDL_Event event; //event handler
@@ -65,9 +73,11 @@ int main(int argc, char* argv[]) {
 	World world = World();
 
     // objects
-    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 1.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.1f, 0.4f, 1.3f)));
+    world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 0.95f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.1f, 0.4f, 1.3f)));
     world.Add(std::make_unique<Sphere>(glm::vec3(3.2f, -0.9f, -7.0f), 3, 0.7f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.2f, 0.4f, 1.3f)));
-    
+    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -9.0f), 3, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
+
+
     //test sphere
     //world.Add(std::make_unique<Sphere>(glm::vec3(1.0f, -3.0f, -7.0f), 1, 1.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.9f, 2.0f)));
     
@@ -88,8 +98,8 @@ int main(int argc, char* argv[]) {
 
 
     // lights
-    //world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
-    world.Add(std::make_unique<Light>(Light(glm::vec3(3.0f, 2.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
+    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
+    //world.Add(std::make_unique<Light>(Light(glm::vec3(3.0f, 2.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f))));
     
     //test light
     //world.Add(std::make_unique<Light>(Light(glm::vec3(1.0f, -3.0f, -4.0f), glm::vec3(1.0f, 1.0f, 1.0f))));

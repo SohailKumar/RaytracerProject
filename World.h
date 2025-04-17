@@ -36,5 +36,5 @@ public:
 
 	glm::vec3 Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec);
 
-	glm::vec3 Refract(glm::vec3 rayIncident, glm::vec3 rayNormal, float n1, float n2);
+	//glm::vec3 Refract(glm::vec3 rayIncident, glm::vec3 rayNormal, float n1, float n2);
 };
