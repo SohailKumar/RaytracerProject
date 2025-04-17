@@ -37,16 +37,21 @@ bool Sphere::Intersect(Ray& r, IntersectionData& intersectionData) const {
 	if (t1 > 0) {
 		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
 		glm::vec3 normal = glm::normalize(intersectionPoint - this->center);
-		intersectionData = { intersectionPoint, normal, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction *= -1.0f}; //TODO Fix this ray direction stuff.
+		intersectionData.point = intersectionPoint;
+		intersectionData.normal = normal;
+		intersectionData.viewDir = r.direction * -1.0f;
+		//intersectionData = { intersectionPoint, normal, glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f}; //TODO Fix this ray direction stuff.
 
 		return true;
 	}
 	//IF INSIDE OBJECT
 	if (t2 > 0) {
-		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t1) * r.direction;
+		glm::vec3 intersectionPoint = r.origin + static_cast<float>(t2) * r.direction;
 		glm::vec3 normal = glm::normalize(intersectionPoint - this->center);
-
-		intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction *= -1.0f}; //TODO Fix this ray direction stuff
+		intersectionData.point = intersectionPoint;
+		intersectionData.normal = normal;
+		intersectionData.viewDir = r.direction * -1.0f;
+		//intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f}; //TODO Fix this ray direction stuff
 
 		return true;
 	}

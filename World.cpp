@@ -13,9 +13,9 @@
 #include <memory>
 
 const float World::EPSILON = 0.01f;
-const int World::MAX_DEPTH = 3;
+const int World::MAX_DEPTH = 5;
 
-World::World() : backgroundColor(glm::vec3(0.0f, 0.0f, 0.0f)) {
+World::World() : backgroundColor(glm::vec3(0.3f, 0.5f, 0.3f)) {
 	return;
 }
 
@@ -64,14 +64,46 @@ glm::vec3 World::Spawn(Ray r, int depth) {
 
 	if (depth < MAX_DEPTH) {
 		if (intersectingObject->reflectionK > 0) {
-			Ray reflectionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.incoming * -1.0f, primaryIntersection.normal));
+			Ray reflectionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.viewDir * -1.0f, primaryIntersection.normal));
 			returnRadiance += intersectingObject->reflectionK * Spawn(reflectionRay, depth + 1);
+			//std::cout << "REFLECTIN";
 		}
-		//if (intersectingObject->transmissionK > 0) {
-		//	Ray transmissionRay = Ray(primaryIntersection.point + (EPSILON * primaryIntersection.normal), Reflect(primaryIntersection.incoming * -1.0f, primaryIntersection.normal));
-		//	returnRadiance = intersectingObject->transmissionK * Spawn(transmissionRay, depth + 1);
-		//	std::cout << "NOT THE RIGHT ONE";
-		//}
+		if (intersectingObject->transmissionK > 0) {
+			//primaryIntersection.incoming is facing away by default.
+			float checkDotProduct = glm::dot(primaryIntersection.viewDir, primaryIntersection.normal);
+			float n1 = 1.0f;
+			float n2 = intersectingObject->transmissionK;
+			glm::vec3 incident = primaryIntersection.viewDir * -1.0f;
+			glm::vec3 normal = primaryIntersection.normal;
+
+			if (checkDotProduct < 0.0f) { //inside object
+				n1 = intersectingObject->transmissionK;
+				n2 = 1.0f;
+				normal = primaryIntersection.normal * -1.0f;
+			}
+
+			//REFRACTION
+			float n = n1 / n2;
+			float cosThetaIncident = -1.0f * glm::dot(incident, normal);
+			float sinSquaredThetaTransmision = n * n * (1.0f - (cosThetaIncident * cosThetaIncident));
+
+			if (sinSquaredThetaTransmision > 1.0f) {
+				//TOTAL INTERNAL REFLECTION
+				Ray reflectionRay = Ray(primaryIntersection.point + (EPSILON * normal), Reflect(incident, normal));
+				//std::cout << "TOTAL INTERNAL REFLECTION" << std::endl;
+				returnRadiance += intersectingObject->transmissionK * Spawn(reflectionRay, depth + 1);
+			}
+			else {
+
+
+				float cosThetaTransmision = sqrt(1.0f - sinSquaredThetaTransmision);
+				glm::vec3 transmissionRayDir = glm::normalize(n * incident + ((n * cosThetaIncident - cosThetaTransmision) * normal));
+				Ray transmissionRay = Ray(primaryIntersection.point + (EPSILON * transmissionRayDir), transmissionRayDir);
+				returnRadiance += intersectingObject->transmissionK * Spawn(transmissionRay, depth + 1);
+			}
+
+			//std::cout << "NOT THE RIGHT ONE";
+		}
 	}
 	
 	return returnRadiance;
@@ -81,6 +113,8 @@ glm::vec3 World::Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec)
 {
 	return glm::normalize(rayToReflect - (2.0f * normalVec * (glm::dot(rayToReflect, normalVec))) );
 }
+
+
 
 bool World::CheckRayObjectIntersect(Ray r, IntersectionData& intersectionData, Object*& retObj)  //TODO make object optional.
 {

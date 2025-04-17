@@ -40,7 +40,7 @@ glm::vec3 Mat_Phong::CalculateRadiance(IntersectionData& intersectionData, World
 	glm::vec3 finalColor = glm::vec3(0.0f, 0.0f, 0.0f);
 	//finalColor += (this->ambient_k * this->diffuseColor * 0.2f);
 	finalColor += (this->diffuse_k * totalDiffuse);
-	//finalColor += (this->specular_k * totalSpecular);
+	finalColor += (this->specular_k * totalSpecular);
 	//finalColor = this->specularColor * glm::dot(intersectionData.reflection, intersectionData.viewDir);
 
 
