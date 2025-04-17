@@ -13,9 +13,9 @@
 #include <memory>
 
 const float World::EPSILON = 0.01f;
-const int World::MAX_DEPTH = 5;
+const int World::MAX_DEPTH = 8;
 
-World::World() : backgroundColor(glm::vec3(0.3f, 0.5f, 0.3f)) {
+World::World() : backgroundColor(glm::vec3(0.6f, 0.6f, 1.0f)) {
 	return;
 }
 
@@ -90,7 +90,6 @@ glm::vec3 World::Spawn(Ray r, int depth) {
 			if (sinSquaredThetaTransmision > 1.0f) {
 				//TOTAL INTERNAL REFLECTION
 				Ray reflectionRay = Ray(primaryIntersection.point + (EPSILON * normal), Reflect(incident, normal));
-				//std::cout << "TOTAL INTERNAL REFLECTION" << std::endl;
 				returnRadiance += intersectingObject->transmissionK * Spawn(reflectionRay, depth + 1);
 			}
 			else {
@@ -101,8 +100,6 @@ glm::vec3 World::Spawn(Ray r, int depth) {
 				Ray transmissionRay = Ray(primaryIntersection.point + (EPSILON * transmissionRayDir), transmissionRayDir);
 				returnRadiance += intersectingObject->transmissionK * Spawn(transmissionRay, depth + 1);
 			}
-
-			//std::cout << "NOT THE RIGHT ONE";
 		}
 	}
 	

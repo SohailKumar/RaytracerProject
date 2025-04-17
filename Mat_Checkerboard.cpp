@@ -23,16 +23,18 @@ glm::vec3 Mat_Checkerboard::CalculateRadiance(IntersectionData& intersectionData
 	bool urowOdd = (urow % 2 == 0);
 	bool vrowOdd = (vrow % 2 == 0);
 
+	glm::vec3 diffuseColor = glm::vec3(0.0f, 0.0f, 0.0f);
 	if ((urowOdd && vrowOdd) || (!urowOdd && !vrowOdd))
 	{
-		finalColor = this->color1;
+		diffuseColor = this->color1;
 	}
 	else
 	{
-		finalColor = this->color2;
+		diffuseColor = this->color2;
 	}
 
 	// Check if in shadow
+	glm::vec3 totalDiffuse = glm::vec3(0.0f);
 
 	IntersectionData secondaryIntersection = {};
 
@@ -45,9 +47,12 @@ glm::vec3 Mat_Checkerboard::CalculateRadiance(IntersectionData& intersectionData
 			continue;
 		}
 
-		return finalColor;
+		intersectionData.incoming = rayToLightDir;
+		intersectionData.reflection = world.Reflect(intersectionData.incoming * -1.0f, intersectionData.normal);
+		totalDiffuse += light->color * diffuseColor * (glm::clamp(glm::dot(intersectionData.incoming, intersectionData.normal), 0.0f, 1.0f));
 	}
-	return finalColor * this->ambientPercent;
+
+	return totalDiffuse * 2.0f;
 }
 
 
