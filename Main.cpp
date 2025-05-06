@@ -68,8 +68,8 @@ int main(int argc, char* argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Basic Raytracer", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
-    //std::string toneReproductionType = "Ward";
-    std::string toneReproductionType = "Lazy";
+    std::string toneReproductionType = "Ward";
+    //std::string toneReproductionType = "Lazy";
     std::println("tone reproduction type = {}", toneReproductionType);
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -78,10 +78,14 @@ int main(int argc, char* argv[]) {
 	World world = World();
 
     // objects
-    world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 0.95f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
-	//world.Add(std::make_unique<Cylinder>(glm::vec3(-1.0f, 0.0f, -4.0f), glm::vec3(-1.0f, 1.0f, -4.5f), 2.0f, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
-    world.Add(std::make_unique<Sphere>(glm::vec3(3.2f, -0.9f, -7.0f), 3, 0.3f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.2f, 0.4f, 1.3f)));
-    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -9.0f), 3, 0.0f, 1.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
+    world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 0.95f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.40f, 0.4f, 1.3f)));
+	
+    //world.Add(std::make_unique<Cylinder>(glm::vec3(-1.0f, 0.0f, -4.0f), glm::vec3(-1.0f, 1.0f, -4.5f), 2.0f, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
+    //world.Add(std::make_unique<Cylinder>(glm::vec3(-1.0f, 2.0f, -4.0f), glm::vec3(-1.0f, 5.0f, -9.0f), 2.0f, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
+    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, -2.0f, 0.0f), 2, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
+
+    world.Add(std::make_unique<Sphere>(glm::vec3(3.2f, -0.9f, -7.0f), 3, 0.8f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.0f, 0.4f, 1.3f)));
+    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -9.0f), 3, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
 
 
     //test sphere
@@ -109,7 +113,7 @@ int main(int argc, char* argv[]) {
     world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
 
     // lights
-    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 2.0f)));
+    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 1000.0f)));
     //world.Add(std::make_unique<Light>(Light(glm::vec3(3.0f, 2.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 1.0f)));
     
     //test light
@@ -135,7 +139,7 @@ int main(int argc, char* argv[]) {
 	//Calculate log-average luminance for tone reproduction with Ward's method
 
     float totalLuminance = 0.0f;
-    float delta = 0.001;
+    float delta = 0.0001;
 
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
@@ -143,12 +147,23 @@ int main(int argc, char* argv[]) {
             glm::vec3 radianceValues = radianceArray[index];
             float r = radianceValues[0], g = radianceValues[1], b = radianceValues[2];
             float Lxy = 0.27 * r + 0.67 * g + 0.06 * b;
-            totalLuminance += std::log(delta + Lxy);
+            //if (Lxy < 0) {
+                //std::println("r = {}, g = {}, b = {}, Lxy = {}", r, g, b, Lxy);
+            //}
+			float logthing = std::log(0.0001 + Lxy);
+            //if (logthing < 0) {
+                //std::println("r = {}, g = {}, b = {}, Lxy = {}", r, g, b, Lxy);
+                //std::println("logthing = {}", logthing);
+            //}
+            totalLuminance += std::log(0.0001 + Lxy);
         }
     }
 
     int numPixels = WINDOW_WIDTH * WINDOW_HEIGHT;
     logAverageLuminance = std::exp(totalLuminance / numPixels);
+    std::println("totalLuminance = {}", totalLuminance);
+	std::println("divided = {}", totalLuminance / numPixels);
+    std::println("logaverageluminance = {}", logAverageLuminance);
                 
 
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
@@ -175,7 +190,7 @@ int main(int argc, char* argv[]) {
             // Compress luminance to range [0, Ldmax]
             if (toneReproductionType == "Ward") {
                 float Lwa = logAverageLuminance; //adaptation luminance = log-average luminance in scene
-				float sf = pow(((1.219 + pow((Ldmax / 2), 0.4)) / (1.219 + pow(Lwa, 0.4))), 2.5) * Lxy;
+				float sf = pow(((1.219 + pow((Ldmax / 2), 0.4)) / (1.219 + pow(Lwa, 0.4))), 2.5);
 				//std::println("sf = {}", sf);
 				r *= sf;
 				g *= sf;
@@ -184,12 +199,17 @@ int main(int argc, char* argv[]) {
             else if (toneReproductionType == "Reinhard")
             {
 				float a = 0.18f; // percent gray zone for zone V
-                r = a / logAverageLuminance * r;
-				g = a / logAverageLuminance * g;
-                b = a / logAverageLuminance * b;
+                float toMult = a / logAverageLuminance;
+                r = toMult * r;
+				g = toMult * g;
+                b = toMult * b;
 				r = r / (1 + r);
 				g = g / (1 + g);
                 b = b / (1 + b);
+                //if (r > 1.0f or g > 1.0f or b > 1.0f) {
+                //    std::println("r = {}, g = {}, b = {}", r, g, b);
+                //}
+
 				r *= Ldmax;
 				g *= Ldmax;
                 b *= Ldmax;
@@ -202,17 +222,16 @@ int main(int argc, char* argv[]) {
                 b = std::clamp(radianceValues[2], 0.0f, 1.0f);
             }
             // Apply device model (assuming device with max output of Ldmax and gamma of 1 with sRGB color space
-            /*r /= Ldmax;
+            r /= Ldmax;
 			g /= Ldmax;
-			b /= Ldmax;*/
+			b /= Ldmax;
 			//std::println("r = {}, g = {}, b = {}", r, g, b);
-
-            //radianceValues[0] = std::clamp(radianceValues[0], 0.0f, 1.0f);
-            //radianceValues[1] = std::clamp(radianceValues[1], 0.0f, 1.0f);
-            //radianceValues[2] = std::clamp(radianceValues[2], 0.0f, 1.0f);
 
             //radianceValues *= 255.0f;
             ///////////////////////
+            //if (r > 1.0f or g > 1.0f or b > 1.0f) {
+            //    std::println("r = {}, g = {}, b = {}", r, g, b);
+            //}
 
 			//cast to uint8_t and convert to 0-255 range
             uint8_t r8 = static_cast<uint8_t>(r * 255.0f);

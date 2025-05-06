@@ -60,7 +60,7 @@ bool Cylinder::Intersect(Ray& r, IntersectionData& intersectionData) const
 
 		intersectionData.point = intersectionPoint;
 		intersectionData.normal = normal;
-		intersectionData.viewDir = r.direction;
+		intersectionData.viewDir = r.direction * -1.0f;
 
 		return true;
 	}

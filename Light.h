@@ -7,6 +7,7 @@ public:
 	Light(glm::vec3 position, glm::vec3 color, float intensity);
 	glm::vec3 position;
 	glm::vec3 color; // in RGB 0-1
+	float intensity;
 
 	void Transform(glm::mat4 viewMatrix);
 };

@@ -7,7 +7,8 @@ Light::Light() {
 
 Light::Light(glm::vec3 position, glm::vec3 color, float intensity) {
 	this->position = position;
-	this->color = color * intensity;
+	this->intensity = intensity;
+	this->color = color;
 }
 
 void Light::Transform(glm::mat4 transformMatrix)
