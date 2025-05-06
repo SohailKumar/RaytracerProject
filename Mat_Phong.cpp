@@ -34,15 +34,16 @@ glm::vec3 Mat_Phong::CalculateRadiance(IntersectionData& intersectionData, World
 		intersectionData.incoming = rayToLightDir;
 		intersectionData.reflection = world.Reflect(intersectionData.incoming * -1.0f, intersectionData.normal);
 		//std::cout << "Point: " << glm::to_string(intersectionData.point) << ", Incoming: " << glm::to_string(intersectionData.incoming * -1.0f) << "\n";
-		totalDiffuse += light->color * this->diffuseColor * (glm::clamp(glm::dot(intersectionData.incoming, intersectionData.normal), 0.0f, 1.0f));
-		totalSpecular += light->color * this->specularColor * std::pow(glm::clamp(glm::dot((intersectionData.reflection), intersectionData.viewDir), 0.0f, 1.0f), shiny_exp);
+		totalDiffuse += light->color * this->diffuseColor * (glm::max(glm::dot(intersectionData.incoming, intersectionData.normal), 0.0f));
+		totalSpecular += light->color * this->specularColor * std::pow(glm::max(glm::dot(intersectionData.reflection, intersectionData.viewDir), 0.0f), shiny_exp);
 	}
 	glm::vec3 finalColor = glm::vec3(0.0f, 0.0f, 0.0f);
 	//finalColor += (this->ambient_k * this->diffuseColor * 0.2f);
 	finalColor += (this->diffuse_k * totalDiffuse);
 	finalColor += (this->specular_k * totalSpecular);
 	//finalColor = this->specularColor * glm::dot(intersectionData.reflection, intersectionData.viewDir);
-
+	//finalColor = intersectionData.point;
+	//finalColor += intersectionData.normal;
 
 	//std::cout << "intersection Data" << intersectionData.reflection << glm::dot(intersectionData.reflection, intersectionData.viewDir) << "\n";
 	

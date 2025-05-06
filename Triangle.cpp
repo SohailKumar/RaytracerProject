@@ -66,7 +66,7 @@ bool Triangle::Intersect(Ray& r, IntersectionData& intersectionData) const {
 	auto [lambda1, lambda2, lambda3] = calculateBarycentricCoordinates(p1, p2, p3, intersectionPoint);
 
 	if (lambda1 >= 0 && lambda2 >= 0 && lambda3 >= 0) {
-		intersectionData = { intersectionPoint, normal * -1.0f , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction };
+		intersectionData = { intersectionPoint, normal * -1.0f , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f };
 
 		return true;
 	}

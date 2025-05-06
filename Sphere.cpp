@@ -70,5 +70,5 @@ glm::vec3 Sphere::CalculateColor(IntersectionData& intersectionData, World& worl
 
 std::tuple<float, float> Sphere::GetUVCoordinates(IntersectionData& intersectionData)
 {
-	return std::tuple<float, float>();
+	return std::tuple<float, float>(); //TODO
 }

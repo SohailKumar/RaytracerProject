@@ -69,7 +69,7 @@ glm::vec3 World::Spawn(Ray r, int depth) {
 			//std::cout << "REFLECTIN";
 		}
 		if (intersectingObject->transmissionK > 0) {
-			//primaryIntersection.incoming is facing away by default.
+			//primaryIntersection.incoming is facing away by default (correct)
 			float checkDotProduct = glm::dot(primaryIntersection.viewDir, primaryIntersection.normal);
 			float n1 = 1.0f;
 			float n2 = intersectingObject->transmissionK;
@@ -90,7 +90,6 @@ glm::vec3 World::Spawn(Ray r, int depth) {
 			if (sinSquaredThetaTransmision > 1.0f) {
 				//TOTAL INTERNAL REFLECTION
 				Ray reflectionRay = Ray(primaryIntersection.point + (EPSILON * normal), Reflect(incident, normal));
-				//std::cout << "TOTAL INTERNAL REFLECTION" << std::endl;
 				returnRadiance += intersectingObject->transmissionK * Spawn(reflectionRay, depth + 1);
 			}
 			else {
@@ -101,14 +100,13 @@ glm::vec3 World::Spawn(Ray r, int depth) {
 				Ray transmissionRay = Ray(primaryIntersection.point + (EPSILON * transmissionRayDir), transmissionRayDir);
 				returnRadiance += intersectingObject->transmissionK * Spawn(transmissionRay, depth + 1);
 			}
-
-			//std::cout << "NOT THE RIGHT ONE";
 		}
 	}
 	
 	return returnRadiance;
 }
 
+//Reflect function expects the ray to be pointing towards the origin of the normal vector that it's reflecting with respect to.
 glm::vec3 World::Reflect(glm::vec3 rayToReflect, glm::vec3 normalVec) 
 {
 	return glm::normalize(rayToReflect - (2.0f * normalVec * (glm::dot(rayToReflect, normalVec))) );
