@@ -1,6 +1,9 @@
 #include "Mat_Checkerboard.h"
 #include "Object.h"
 #include "World.h"
+#include <iostream>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 
 Mat_Checkerboard::Mat_Checkerboard(glm::vec3 color1, glm::vec3 color2, float size, float ambientPercent)
 {
@@ -34,6 +37,9 @@ glm::vec3 Mat_Checkerboard::CalculateRadiance(IntersectionData& intersectionData
 
 	// Check if in shadow
 
+	glm::vec3 totalDiffuse = glm::vec3(0.0f);
+	glm::vec3 totalSpecular = glm::vec3(0.0f);
+
 	IntersectionData secondaryIntersection = {};
 
 	for (const auto& light : *intersectionData.lights) {
@@ -45,9 +51,17 @@ glm::vec3 Mat_Checkerboard::CalculateRadiance(IntersectionData& intersectionData
 			continue;
 		}
 
-		return finalColor;
+		intersectionData.incoming = rayToLightDir;
+		intersectionData.reflection = world.Reflect(intersectionData.incoming * -1.0f, intersectionData.normal);
+		totalDiffuse += light->color * light->intensity * finalColor * (glm::clamp(glm::dot(intersectionData.incoming, intersectionData.normal), 0.0f, 1.0f));
+		totalSpecular += light->color * light->intensity * glm::vec3(1.0f,1.0f,1.0f) * std::pow(glm::clamp(glm::dot(intersectionData.reflection, intersectionData.viewDir), 0.0f, 1.0f), 1.2f);
+
 	}
-	return finalColor * this->ambientPercent;
+	glm::vec3 thing = glm::vec3(0.0f);
+	thing += (1.0f * totalDiffuse);
+	thing += (0.4f * totalSpecular);
+	std::cout << "thing: " << glm::to_string(thing) << "\n";
+	return thing;
 }
 
 

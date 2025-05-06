@@ -63,12 +63,14 @@ int main(int argc, char* argv[]) {
 
     const int WINDOW_WIDTH = 854;
     const int WINDOW_HEIGHT = 480;
+    //const int WINDOW_WIDTH = 1024;
+    //const int WINDOW_HEIGHT = 768;
     //const int WINDOW_WIDTH = 85;
     //const int WINDOW_HEIGHT = 48;
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Basic Raytracer", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
-    std::string toneReproductionType = "Ward";
+    std::string toneReproductionType = "Reinhard";
     //std::string toneReproductionType = "Lazy";
     std::println("tone reproduction type = {}", toneReproductionType);
 
@@ -105,15 +107,15 @@ int main(int argc, char* argv[]) {
     //Checkerboard ground
 	glm::vec3 color1 = glm::vec3(1.0f, 0.2f, 0.6f);
     glm::vec3 color2 = glm::vec3(0.6f, 0.0f, 0.6f);
-    //world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_Checkerboard>(color1, color2, 0.1, 0.25))));
-    //world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Checkerboard>(color1, color2, 0.1, 0.25))));
+    world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_Checkerboard>(color1, color2, 0.1, 0.25))));
+    world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Checkerboard>(color1, color2, 0.1, 0.25))));
 
     //Phong Shaded ground
-    world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
-    world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
 
     // lights
-    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 1000.0f)));
+    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 0.80f)));
     //world.Add(std::make_unique<Light>(Light(glm::vec3(3.0f, 2.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 1.0f)));
     
     //test light
@@ -141,21 +143,27 @@ int main(int argc, char* argv[]) {
     float totalLuminance = 0.0f;
     float delta = 0.0001;
 
+    float ri = 0.0f;
+    float gi = 0.0f;
+    float bi = 0.0f;
+
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
             glm::vec3 radianceValues = radianceArray[index];
-            float r = radianceValues[0], g = radianceValues[1], b = radianceValues[2];
-            float Lxy = 0.27 * r + 0.67 * g + 0.06 * b;
+            ri = radianceValues[0];
+            gi = radianceValues[1];
+            bi = radianceValues[2];
+            float Lxy = 0.27 * ri + 0.67 * gi + 0.06 * bi;
             //if (Lxy < 0) {
-                //std::println("r = {}, g = {}, b = {}, Lxy = {}", r, g, b, Lxy);
+            //std::println("r = {}, g = {}, b = {}, Lxy = {}", ri, gi, bi, Lxy);
             //}
-			float logthing = std::log(0.0001 + Lxy);
+			//float logthing = std::log(0.0001 + Lxy);
             //if (logthing < 0) {
                 //std::println("r = {}, g = {}, b = {}, Lxy = {}", r, g, b, Lxy);
                 //std::println("logthing = {}", logthing);
             //}
-            totalLuminance += std::log(0.0001 + Lxy);
+            totalLuminance += std::log(delta + Lxy);
         }
     }
 
@@ -165,66 +173,79 @@ int main(int argc, char* argv[]) {
 	std::println("divided = {}", totalLuminance / numPixels);
     std::println("logaverageluminance = {}", logAverageLuminance);
                 
-
+    float Ldmax = 100.0f;
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
             glm::vec3 radianceValues = radianceArray[index];  // Get corresponding pixel radiance
-            if (radianceValues[0] > 0) {
-                radianceValues = radianceValues;
-            }
-            //if (radianceValues == glm::vec3(1.0f, 0.0f, 0.0f)) {
-            //    radianceValues *= 255.0f;
-            //}
 
             ///////////////////////
             ///TONE REPRODUCTION///
 
             // Convert from float [0,1] to uint8_t [0,255]
-            float r = radianceValues[0], g = radianceValues[1], b = radianceValues[2];
-            float Ldmax = 100.0f;
+            float ri = radianceValues[0];
+            float gi = radianceValues[1];
+            float bi = radianceValues[2];
 
-            // Calculate overall luminance
-			float Lxy = 0.27 * r + 0.67 * g + 0.06 * b;
+            if (ri != 0 or gi != 0 or bi != 0) {
+                bool ihatebenson = false;
+            }
+            // Calculate luminance
+			float Lxy = 0.27 * ri + 0.67 * gi + 0.06 * bi;
 
+            float rs = 0;
+            float gs = 0;
+            float bs = 0;
             // Compress luminance to range [0, Ldmax]
             if (toneReproductionType == "Ward") {
                 float Lwa = logAverageLuminance; //adaptation luminance = log-average luminance in scene
-				float sf = pow(((1.219 + pow((Ldmax / 2), 0.4)) / (1.219 + pow(Lwa, 0.4))), 2.5);
+                float innerDiv = std::pow((Ldmax / 2), 0.4);
+                float numerator = 1.219 + innerDiv;
+				float denom = 1.219 + std::pow(Lwa, 0.4);
+				float quotient = numerator / denom;
+				float sf = std::pow(quotient, 2.5);
+				//float sf = std::pow( ((1.219 + std::pow((Ldmax / 2), 0.4)) / (1.219 + std::pow(Lwa, 0.4))), 2.5);
 				//std::println("sf = {}", sf);
-				r *= sf;
-				g *= sf;
-				b *= sf;
+				rs = ri * sf;
+				gs = gi * sf;
+				bs = bi * sf;
+                if (rs > Ldmax or gs > Ldmax or bs > Ldmax) {
+                    bool whoisbenson = false;
+                }
             }
             else if (toneReproductionType == "Reinhard")
             {
 				float a = 0.18f; // percent gray zone for zone V
                 float toMult = a / logAverageLuminance;
-                r = toMult * r;
-				g = toMult * g;
-                b = toMult * b;
-				r = r / (1 + r);
-				g = g / (1 + g);
-                b = b / (1 + b);
+                ri *= toMult;
+				gi *= toMult;
+                bi *= toMult;
+				rs = ri / (1 + ri);
+				gs = gi / (1 + gi);
+                bs = bi / (1 + bi);
                 //if (r > 1.0f or g > 1.0f or b > 1.0f) {
                 //    std::println("r = {}, g = {}, b = {}", r, g, b);
                 //}
 
-				r *= Ldmax;
-				g *= Ldmax;
-                b *= Ldmax;
+				rs *= Ldmax;
+				gs *= Ldmax;
+                bs *= Ldmax;
+
 			}
             else if (toneReproductionType == "Lazy")
             {
 
-                r = std::clamp(radianceValues[0], 0.0f, 1.0f);
-                g = std::clamp(radianceValues[1], 0.0f, 1.0f);
-                b = std::clamp(radianceValues[2], 0.0f, 1.0f);
+                ri = std::clamp(radianceValues[0], 0.0f, 1.0f);
+                gi = std::clamp(radianceValues[1], 0.0f, 1.0f);
+                bi = std::clamp(radianceValues[2], 0.0f, 1.0f);
             }
             // Apply device model (assuming device with max output of Ldmax and gamma of 1 with sRGB color space
-            r /= Ldmax;
-			g /= Ldmax;
-			b /= Ldmax;
+            if (toneReproductionType != "Lazy") {
+                rs = rs / Ldmax;
+                gs = gs / Ldmax;
+                bs = bs / Ldmax;
+            }
+
 			//std::println("r = {}, g = {}, b = {}", r, g, b);
 
             //radianceValues *= 255.0f;
@@ -232,11 +253,15 @@ int main(int argc, char* argv[]) {
             //if (r > 1.0f or g > 1.0f or b > 1.0f) {
             //    std::println("r = {}, g = {}, b = {}", r, g, b);
             //}
+			rs = glm::clamp(rs, 0.0f, 1.0f);
+            gs = glm::clamp(gs, 0.0f, 1.0f);
+            bs = glm::clamp(bs, 0.0f, 1.0f);
+
 
 			//cast to uint8_t and convert to 0-255 range
-            uint8_t r8 = static_cast<uint8_t>(r * 255.0f);
-            uint8_t g8 = static_cast<uint8_t>(g * 255.0f);
-            uint8_t b8 = static_cast<uint8_t>(b * 255.0f);
+            uint8_t r8 = static_cast<uint8_t>(rs * 255.0f);
+            uint8_t g8 = static_cast<uint8_t>(gs * 255.0f);
+            uint8_t b8 = static_cast<uint8_t>(bs * 255.0f);
             uint8_t a8 = 255;  // Full opacity
 
 			//std::cout << "r8 = " << (int)r8 << ", g8 = " << (int)g8 << ", b8 = " << (int)b8 << std::endl;

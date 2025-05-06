@@ -44,9 +44,11 @@ bool Cylinder::Intersect(Ray& r, IntersectionData& intersectionData) const
 		//}
 		normal = glm::normalize(normal);
 
-		intersectionData.point = intersectionPoint;
-		intersectionData.normal = normal;
-		intersectionData.viewDir = r.direction * -1.0f;
+		//intersectionData.point = intersectionPoint;
+		//intersectionData.normal = normal;
+		//intersectionData.viewDir = r.direction * -1.0f;
+
+		intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f };
 
 		return true;
 	}
@@ -58,9 +60,11 @@ bool Cylinder::Intersect(Ray& r, IntersectionData& intersectionData) const
 		float divRad = 1 / this->radius;
 		glm::vec3 normal = ba * ((y < 0.0)? -1.0f : 1.0f) / sqrt(baba);
 
-		intersectionData.point = intersectionPoint;
-		intersectionData.normal = normal;
-		intersectionData.viewDir = r.direction * -1.0f;
+		//intersectionData.point = intersectionPoint;
+		//intersectionData.normal = normal;
+		//intersectionData.viewDir = r.direction * -1.0f;
+
+		intersectionData = { intersectionPoint, normal , glm::vec3(0.0f, 0.0f, 0.0f) , glm::vec3(0.0f, 0.0f, 0.0f), r.direction * -1.0f };
 
 		return true;
 	}
