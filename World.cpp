@@ -15,7 +15,7 @@
 const float World::EPSILON = 0.01f;
 const int World::MAX_DEPTH = 5;
 
-World::World() : backgroundColor(glm::vec3(0.0f, 0.0f, 0.0f)) {
+World::World() : backgroundColor(glm::vec3(0.3f, 0.5f, 0.3f) * 0.5f) {
 	return;
 }
 

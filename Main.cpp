@@ -70,8 +70,8 @@ int main(int argc, char* argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer("Basic Raytracer", WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
-    std::string toneReproductionType = "Reinhard";
-    //std::string toneReproductionType = "Lazy";
+    //std::string toneReproductionType = "Ward";
+    std::string toneReproductionType = "Lazy";
     std::println("tone reproduction type = {}", toneReproductionType);
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
     //world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
 
     // lights
-    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 0.80f)));
+    world.Add(std::make_unique<Light>(Light(glm::vec3(1.5f, 10.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 1.0f)));
     //world.Add(std::make_unique<Light>(Light(glm::vec3(3.0f, 2.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 1.0f)));
     
     //test light
@@ -138,14 +138,16 @@ int main(int argc, char* argv[]) {
 
     float logAverageLuminance = 0.0f;
     
-	//Calculate log-average luminance for tone reproduction with Ward's method
-
-    float totalLuminance = 0.0f;
-    float delta = 0.0001;
-
     float ri = 0.0f;
     float gi = 0.0f;
     float bi = 0.0f;
+
+	//Calculate log-average luminance for tone reproduction with Ward's method
+    float totalLuminance = 0.0f;
+    float delta = 0.0001;
+
+    float keyValue = 0.0f;
+
 
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
@@ -163,17 +165,80 @@ int main(int argc, char* argv[]) {
                 //std::println("r = {}, g = {}, b = {}, Lxy = {}", r, g, b, Lxy);
                 //std::println("logthing = {}", logthing);
             //}
+            if (x == 495 and y == 245) {
+				keyValue = Lxy;
+            }
+
             totalLuminance += std::log(delta + Lxy);
         }
     }
-
     int numPixels = WINDOW_WIDTH * WINDOW_HEIGHT;
     logAverageLuminance = std::exp(totalLuminance / numPixels);
-    std::println("totalLuminance = {}", totalLuminance);
-	std::println("divided = {}", totalLuminance / numPixels);
-    std::println("logaverageluminance = {}", logAverageLuminance);
-                
+    if (keyValue == -1.0f) {
+        keyValue = logAverageLuminance;
+    }
+    //   std::println("totalLuminance = {}", totalLuminance);
+       //std::println("divided = {}", totalLuminance / numPixels);
+	std::println("logAverageLuminance = {}", logAverageLuminance);
+
+
     float Ldmax = 100.0f;
+    float maxNormalizedLuminance = 0.0f;
+    int b = 0.25;
+
+    if (toneReproductionType == "adaptive") {
+        //Get maxnormalizedLuminance
+        for (int y = 0; y < WINDOW_HEIGHT; ++y) {
+            for (int x = 0; x < WINDOW_WIDTH; ++x) {
+                int index = y * WINDOW_WIDTH + x;
+                glm::vec3 radianceValues = radianceArray[index];
+                ri = radianceValues[0];
+                gi = radianceValues[1];
+                bi = radianceValues[2];
+
+                float Lxy = 0.27 * ri + 0.67 * gi + 0.06 * bi;
+                float normalizedLxy = Lxy / logAverageLuminance;
+				//std::println("Lxy = {}, normalizedLxy = {}", Lxy, normalizedLxy);
+
+                if (normalizedLxy > maxNormalizedLuminance) {
+                    maxNormalizedLuminance = normalizedLxy;
+                }
+            }
+        }
+		std::println("maxNormalizedLuminance = {}", maxNormalizedLuminance);
+
+        // Get Ldmax
+        Ldmax = 0.0f;
+        for (int y = 0; y < WINDOW_HEIGHT; ++y) {
+            for (int x = 0; x < WINDOW_WIDTH; ++x) {
+                int index = y * WINDOW_WIDTH + x;
+                glm::vec3 radianceValues = radianceArray[index];
+                ri = radianceValues[0];
+                gi = radianceValues[1];
+                bi = radianceValues[2];
+
+                float Lxy = 0.27 * ri + 0.67 * gi + 0.06 * bi;
+                float normalizedLxy = Lxy / logAverageLuminance;
+
+                float Lwa = logAverageLuminance; //adaptation luminance = log-average luminance in scene
+                float val1 = 1 / std::log10(1 + maxNormalizedLuminance);
+                float val2Numerator = std::log(normalizedLxy + 1);
+
+                float val2Denominator = std::log(2 + (std::pow(normalizedLxy / maxNormalizedLuminance, std::log(b) / std::log(0.5))) * 8);
+
+                float val2 = val2Numerator / val2Denominator;
+
+                float Ld = val1 * val2;
+
+                if (Ld > Ldmax) {
+                    Ldmax = Ld;
+                }
+            }
+        }
+    }
+	std::println("Ldmax = {}", Ldmax);
+
+                
     for (int y = 0; y < WINDOW_HEIGHT; ++y) {
         for (int x = 0; x < WINDOW_WIDTH; ++x) {
             int index = y * WINDOW_WIDTH + x;
@@ -199,6 +264,7 @@ int main(int argc, char* argv[]) {
             // Compress luminance to range [0, Ldmax]
             if (toneReproductionType == "Ward") {
                 float Lwa = logAverageLuminance; //adaptation luminance = log-average luminance in scene
+                Lwa = 0.01f;
                 float innerDiv = std::pow((Ldmax / 2), 0.4);
                 float numerator = 1.219 + innerDiv;
 				float denom = 1.219 + std::pow(Lwa, 0.4);
@@ -215,8 +281,10 @@ int main(int argc, char* argv[]) {
             }
             else if (toneReproductionType == "Reinhard")
             {
-				float a = 0.18f; // percent gray zone for zone V
-                float toMult = a / logAverageLuminance;
+				float a = 0.18f; // percent gray zone for zone 
+                //std::println("LAL: {}", keyValue);// 0.00047111965
+                //keyValue = 0.01;
+                float toMult = a / keyValue;
                 ri *= toMult;
 				gi *= toMult;
                 bi *= toMult;
@@ -231,14 +299,41 @@ int main(int argc, char* argv[]) {
 				gs *= Ldmax;
                 bs *= Ldmax;
 
-			}
+            }
+            else if (toneReproductionType == "adaptive") {
+                //adpaptive logarithmic mapping
+				float normalizedLxy = Lxy / Ldmax;
+                float Lwa = logAverageLuminance; //adaptation luminance = log-average luminance in scene
+                float val1 = 1 / std::log10(1 + maxNormalizedLuminance);
+                float val2Numerator = std::log(normalizedLxy + 1);
+
+				float val2Denominator = std::log(2 + (std::pow(normalizedLxy/maxNormalizedLuminance, std::log(b)/std::log(0.5))) * 8);
+
+                float val2 = val2Numerator / val2Denominator;
+
+                float Ld = val1 * val2;
+
+                rs = ri * Ld / Lxy;
+                gs = gi * Ld / Lxy;
+                bs = bi * Ld / Lxy;
+				//std::println("Lxy = {}, Ld = {}", Lxy, Ld);
+				//std::println("r = {}, g = {}, b = {}", r, g, b);
+				//std::println("rs = {}, gs = {}, bs = {}", rs, gs, bs);
+				//if (r > 1.0f or g > 1.0f or b > 1.0f) {
+				//    std::println("r = {}, g = {}, b = {}", r, g, b);
+				//}
+            }
             else if (toneReproductionType == "Lazy")
             {
+                //std::println("r = {}, g = {}, b = {}", radianceValues[0], radianceValues[1], radianceValues[2]);
+                rs = std::clamp(radianceValues[0], 0.0f, 1.0f);
+                gs = std::clamp(radianceValues[1], 0.0f, 1.0f);
+                bs = std::clamp(radianceValues[2], 0.0f, 1.0f);
+                //std::println("r = {}, g = {}, b = {}", ri, gi, bi);
 
-                ri = std::clamp(radianceValues[0], 0.0f, 1.0f);
-                gi = std::clamp(radianceValues[1], 0.0f, 1.0f);
-                bi = std::clamp(radianceValues[2], 0.0f, 1.0f);
             }
+
+
             // Apply device model (assuming device with max output of Ldmax and gamma of 1 with sRGB color space
             if (toneReproductionType != "Lazy") {
                 rs = rs / Ldmax;
@@ -251,12 +346,18 @@ int main(int argc, char* argv[]) {
             //radianceValues *= 255.0f;
             ///////////////////////
             //if (r > 1.0f or g > 1.0f or b > 1.0f) {
-            //    std::println("r = {}, g = {}, b = {}", r, g, b);
+            //std::println("r = {}, g = {}, b = {}", rs, gs, bs);
             //}
 			rs = glm::clamp(rs, 0.0f, 1.0f);
             gs = glm::clamp(gs, 0.0f, 1.0f);
             bs = glm::clamp(bs, 0.0f, 1.0f);
+            //std::println("r = {}, g = {}, b = {}", rs, gs, bs);
 
+    //        if (x > 490 and x < 500 and y > 240 and y < 250) {
+    //            rs = 0.0f;
+				//gs = 1.0f;
+				//bs = 0.0f;
+    //        }
 
 			//cast to uint8_t and convert to 0-255 range
             uint8_t r8 = static_cast<uint8_t>(rs * 255.0f);

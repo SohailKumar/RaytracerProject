@@ -60,7 +60,6 @@ glm::vec3 Mat_Checkerboard::CalculateRadiance(IntersectionData& intersectionData
 	glm::vec3 thing = glm::vec3(0.0f);
 	thing += (1.0f * totalDiffuse);
 	thing += (0.4f * totalSpecular);
-	std::cout << "thing: " << glm::to_string(thing) << "\n";
 	return thing;
 }
 
