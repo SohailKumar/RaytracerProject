@@ -82,13 +82,13 @@ int main(int argc, char* argv[]) {
 	World world = World();
 
     // objects
-    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 0.95f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.40f, 0.4f, 1.3f)));
+    world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 0.95f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.40f, 0.4f, 1.3f)));
 	
     //world.Add(std::make_unique<Cylinder>(glm::vec3(-1.0f, 0.0f, -4.0f), glm::vec3(-1.0f, 1.0f, -4.5f), 2.0f, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
     //world.Add(std::make_unique<Cylinder>(glm::vec3(-1.0f, 2.0f, -4.0f), glm::vec3(-1.0f, 5.0f, -9.0f), 2.0f, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
     //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, -2.0f, 0.0f), 2, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
 
-    //world.Add(std::make_unique<Sphere>(glm::vec3(3.2f, -0.9f, -7.0f), 3, 0.8f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.0f, 0.4f, 1.3f)));
+    world.Add(std::make_unique<Sphere>(glm::vec3(3.2f, -0.9f, -7.0f), 3, 0.8f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.0f, 0.4f, 1.3f)));
     //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -9.0f), 3, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
 
 
@@ -96,9 +96,9 @@ int main(int argc, char* argv[]) {
     //world.Add(std::make_unique<Sphere>(glm::vec3(1.0f, -3.0f, -7.0f), 1, 1.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.9f, 2.0f)));
     
     Vertex corner1 = Vertex(glm::vec3(-9, -5, -1), 0, 0);
-	Vertex corner2 = Vertex(glm::vec3(-9, -2, -22), 0, 1);
+	Vertex corner2 = Vertex(glm::vec3(-9, -5, -25), 0, 1);
 	Vertex corner3 = Vertex(glm::vec3(10, -5, -1), 1, 0);
-	Vertex corner4 = Vertex(glm::vec3(10, -2, -22), 1, 1);
+	Vertex corner4 = Vertex(glm::vec3(10, -5, -25), 1, 1);
 
     // plane right in front of camera
     //Vertex corner1 = Vertex(glm::vec3(-10, -5.7, -5), 0, 0);
