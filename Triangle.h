@@ -20,4 +20,5 @@ public:
     //std::tuple<glm::vec3, glm::vec3> CalculateColor(IntersectionData& intersectionData, const Light* light) override;
     glm::vec3 CalculateColor(IntersectionData& intersectionData, World& world) override;
     std::tuple<float, float> GetUVCoordinates(IntersectionData& intersectionData) override;
+    std::pair<glm::vec3, glm::vec3> GetTangentBitangent() override;
 };

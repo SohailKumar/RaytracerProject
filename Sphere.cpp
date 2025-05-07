@@ -72,3 +72,7 @@ std::tuple<float, float> Sphere::GetUVCoordinates(IntersectionData& intersection
 {
 	return std::tuple<float, float>(); //TODO
 }
+
+std::pair<glm::vec3, glm::vec3> Sphere::GetTangentBitangent() {
+	return std::pair<glm::vec3, glm::vec3>(glm::vec3(0.0f), glm::vec3(0.0f)); //TODO;
+}

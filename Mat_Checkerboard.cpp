@@ -4,6 +4,7 @@
 #include <iostream>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
+#include <print>
 
 Mat_Checkerboard::Mat_Checkerboard(glm::vec3 color1, glm::vec3 color2, float size, float ambientPercent)
 {
@@ -60,6 +61,8 @@ glm::vec3 Mat_Checkerboard::CalculateRadiance(IntersectionData& intersectionData
 	glm::vec3 thing = glm::vec3(0.0f);
 	thing += (1.0f * totalDiffuse);
 	thing += (0.4f * totalSpecular);
+	//std::println("totalDifffuse: {}, totalSpecular {}, finalColor: {}", totalDiffuse[0], totalSpecular[0], finalColor[0]);
+	//std::println("thing: {}, {}, {}", thing[0], thing[1], thing[2]);
 	return thing;
 }
 

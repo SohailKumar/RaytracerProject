@@ -11,6 +11,7 @@ class IlluminanceModel;
 #include "Light.h"
 #include "IntersectionData.h"
 #include "IlluminanceModel.h"
+#include <utility>
 
 class Object {
 public:
@@ -30,4 +31,5 @@ public:
     virtual glm::vec3 CalculateColor(IntersectionData& intersectionData, World& world) = 0;
 
 	virtual std::tuple<float, float> GetUVCoordinates(IntersectionData& intersectionData) = 0;
+    virtual std::pair<glm::vec3, glm::vec3> GetTangentBitangent() = 0;
 };

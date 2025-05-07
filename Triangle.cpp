@@ -95,3 +95,35 @@ std::tuple<float, float> Triangle::GetUVCoordinates(IntersectionData& intersecti
 
 	return { u, v };
 }
+
+std::pair<glm::vec3, glm::vec3> Triangle::GetTangentBitangent() {
+	glm::vec3 p0 = this->points[0].position;
+	glm::vec3 p1 = this->points[1].position;
+	glm::vec3 p2 = this->points[2].position;
+	glm::vec2 uv0 = glm::vec2(this->points[0].u, this->points[0].v);
+	glm::vec2 uv1 = glm::vec2(this->points[1].u, this->points[1].v);
+	glm::vec2 uv2 = glm::vec2(this->points[2].u, this->points[2].v);
+
+	glm::vec3 edge1 = p1 - p0;
+	glm::vec3 edge2 = p2 - p0;
+
+	glm::vec2 deltaUV1 = uv1 - uv0;
+	glm::vec2 deltaUV2 = uv2 - uv0;
+
+	float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+	glm::vec3 tangent;
+	tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+	tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+	tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+	tangent = glm::normalize(tangent);
+
+	glm::vec3 bitangent;
+	bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+	bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+	bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+	bitangent = glm::normalize(bitangent);
+	//std::pair<glm::vec3, glm::vec3> tangentBitangent = std::pair<glm::vec3, glm::vec3>(tangent, bitangent);
+
+	return std::pair<glm::vec3, glm::vec3>(tangent, bitangent); //TODO;
+}

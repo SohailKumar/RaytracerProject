@@ -138,7 +138,9 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Mat_AshikhminShirley.cpp" />
     <ClCompile Include="Mat_Checkerboard.cpp" />
+    <ClCompile Include="Mat_ImageTexture.cpp" />
     <ClCompile Include="Mat_Phong.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -152,8 +154,11 @@
     <ClInclude Include="IlluminanceModel.h" />
     <ClInclude Include="IntersectionData.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Mat_AshikhminShirley.h" />
     <ClInclude Include="Mat_Checkerboard.h" />
+    <ClInclude Include="Mat_ImageTexture.h" />
     <ClInclude Include="Mat_Phong.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="ToneReproducer.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Material.h" />
@@ -165,6 +170,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ornn.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
