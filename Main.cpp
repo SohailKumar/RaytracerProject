@@ -20,6 +20,7 @@
 #include "Mat_Checkerboard.h"
 #include "Mat_ImageTexture.h"
 #include "Mat_AshikhminShirley.h"
+#include "Mat_PhongBlinn.h"
 
 int main(int argc, char* argv[]) {
     //TESTING
@@ -82,14 +83,16 @@ int main(int argc, char* argv[]) {
 	World world = World();
 
     // objects
-    world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 0.95f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.40f, 0.4f, 1.3f)));
+    //THE DUO
+    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 3, 0.0f, 0.95f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.40f, 0.4f, 1.3f)));
+    //world.Add(std::make_unique<Sphere>(glm::vec3(3.2f, -0.9f, -7.0f), 3, 0.8f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.0f, 0.4f, 1.3f)));
 	
+
     //world.Add(std::make_unique<Cylinder>(glm::vec3(-1.0f, 0.0f, -4.0f), glm::vec3(-1.0f, 1.0f, -4.5f), 2.0f, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
     //world.Add(std::make_unique<Cylinder>(glm::vec3(-1.0f, 2.0f, -4.0f), glm::vec3(-1.0f, 5.0f, -9.0f), 2.0f, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
-    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, -2.0f, 0.0f), 2, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
+    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -4.0f), 2, 0.0f, 0.0f, std::make_unique<Mat_PhongBlinn>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.7f, 0.7f)));
 
-    world.Add(std::make_unique<Sphere>(glm::vec3(3.2f, -0.9f, -7.0f), 3, 0.8f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 0.0f, 0.4f, 1.3f)));
-    //world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -9.0f), 3, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 0.4f, 1.3f)));
+    world.Add(std::make_unique<Sphere>(glm::vec3(-1.0f, 1.0f, -9.0f), 3, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.5f)));
 
 
     //test sphere
@@ -107,13 +110,13 @@ int main(int argc, char* argv[]) {
     //Vertex corner4 = Vertex(glm::vec3(10, 5.8, -5), 1, 1);
     
     //Ashikhmin Shirley
-    world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_AshikhminShirley>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), 10, 10))));
-    world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_AshikhminShirley>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), 10, 10))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_AshikhminShirley>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), 10, 10))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_AshikhminShirley>(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f), 10, 10))));
 
 
     //Image Texture
-    //world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_ImageTexture>("ornn.jpg"))));
-    //world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_ImageTexture>("ornn.jpg"))));
+    world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_ImageTexture>("ornn.jpg"))));
+    world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_ImageTexture>("ornn.jpg"))));
 
     //Checkerboard ground
 	glm::vec3 color1 = glm::vec3(1.0f, 0.2f, 0.6f);
@@ -122,7 +125,7 @@ int main(int argc, char* argv[]) {
     //world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Checkerboard>(color1, color2, 0.1, 0.25))));
 
     //Phong Shaded ground
-    //world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
+    //world.Add(std::make_unique<Triangle>(Triangle({ corner1, corner2, corner3 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 15.0f))));
     //world.Add(std::make_unique<Triangle>(Triangle({ corner3, corner2, corner4 }, 0.0f, 0.0f, std::make_unique<Mat_Phong>(glm::vec3(0.0f, 0.4f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f, 1.0f, 1.0f, 2.0f))));
 
     // lights
@@ -130,7 +133,7 @@ int main(int argc, char* argv[]) {
     //world.Add(std::make_unique<Light>(Light(glm::vec3(3.0f, 2.0f, 1.0f), glm::vec3(0.5f, 0.5f, 0.5f), 1.0f)));
     
     //test light
-    //world.Add(std::make_unique<Light>(Light(glm::vec3(1.0f, -3.0f, -4.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f)));
+    //world.Add(std::make_unique<Light>(Light(glm::vec3(1.0f, 10.0f, -15.0f), glm::vec3(1.0f, 1.0f, 1.0f), 1.0f)));
 
 
 

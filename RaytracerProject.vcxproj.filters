@@ -54,6 +54,9 @@
     <ClCompile Include="Mat_AshikhminShirley.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mat_PhongBlinn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object.h">
@@ -108,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mat_AshikhminShirley.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat_PhongBlinn.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -142,6 +142,7 @@
     <ClCompile Include="Mat_Checkerboard.cpp" />
     <ClCompile Include="Mat_ImageTexture.cpp" />
     <ClCompile Include="Mat_Phong.cpp" />
+    <ClCompile Include="Mat_PhongBlinn.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Ray.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Mat_Checkerboard.h" />
     <ClInclude Include="Mat_ImageTexture.h" />
     <ClInclude Include="Mat_Phong.h" />
+    <ClInclude Include="Mat_PhongBlinn.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="ToneReproducer.h" />
     <ClInclude Include="Triangle.h" />
